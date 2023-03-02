@@ -13,6 +13,9 @@ website:
     search: true
     contents:
       - section: "NSCLC"
+        contents:
+            - href: EGFR_E709.qmd
+              text: EGFR E709
       - section: "Breast"
 
 format:
