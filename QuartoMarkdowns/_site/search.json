@@ -11,13 +11,34 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Biomarker recommendations will be updated quarterly. Each page will indicate whether the code has been updated for the current quarter’s data release.\nBiomarker recommendations are based on what has been confirmed by looking in EMOL patient records, and inconsistencies that may be present. The goal is to be as thorough as possible, but if you see something that needs to be changed, please let me know. [link to email or jira]\nIf you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. [link to email or jira]\nAbbreviations - AA: amino acid - CDS: coding sequence"
+    "text": "Biomarker recommendations will be updated quarterly. Each page will indicate whether the code has been updated for the current quarter’s data release.\nBiomarker recommendations are based on what has been confirmed by looking in EMOL patient records, and inconsistencies that may be present. The goal is to be as thorough as possible, but if you see something that needs to be changed, please let me know. [link to email or jira]\nIf you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. [link to email or jira]\nAbbreviations - AA: amino acid  - CDS: coding sequence"
   },
   {
     "objectID": "EGFR_E709.html",
     "href": "EGFR_E709.html",
     "title": "EGFR E709 variant",
     "section": "",
-    "text": "This variant, located on exon 18, is a single nucleotide missense mutation changing Glutamic Acid (Glu) to another amino acid, commonly to Aspartic Acid (Asp).\nThis is not as common of a mutation as others like L858R and G719X, so numbers of patients with detected/positive results are going to be low.\nAA alteration: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G  CDS mutation: c.2127A>C, c.2125G>A, c.2126A>T, c.2126A>G, c.2126A>C, other others"
+    "text": "Code updated for Q4 2022\nThis variant, located on exon 18, is a single nucleotide missense mutation changing Glutamic Acid (Glu) to another amino acid, commonly to Aspartic Acid (Asp).\nThis is not as common of a mutation as others like L858R and G719X, so numbers of patients with detected/positive results are going to be low.\nAA mutation: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G  CDS mutation: c.2127A>C, c.2125G>A, c.2126A>T, c.2126A>G, c.2126A>C, other others"
+  },
+  {
+    "objectID": "EGFR_E709.html#example-code-pt360",
+    "href": "EGFR_E709.html#example-code-pt360",
+    "title": "EGFR E709 variant",
+    "section": "Example code: PT360",
+    "text": "Example code: PT360\nselect chai_patient_id,\n       test_name_name,\n       test_date,\n       test_collection_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       test_value_name\n\nfrom c3_pt360_202212_nsclc.patient_test\nwhere test_name_name ilike '%EGFR%' and\n      molecular_variant_name similar to '%(E709|e709|codons 709)%' and\n      test_value_name = 'Positive';"
+  },
+  {
+    "objectID": "EGFR_E709.html#example-code-gn360",
+    "href": "EGFR_E709.html#example-code-gn360",
+    "title": "EGFR E709 variant",
+    "section": "Example code: GN360",
+    "text": "Example code: GN360\nselect chai_patient_id,\n       test_name_name,\n       test_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       'p.E709X' as protein_alteration,\n       test_value_name\nfrom c3_gn360_202212_nsclc.patient_test\n    where test_name_name like '%EGFR%' and molecular_variant_name similar to '%(E709|e709|codons 709)%'\n    and test_value_name = 'Positive'\n\n\nUNION\n\nselect chai_patient_id,\n       biomarker_name as test_name_name,\n       report_date as test_date,\n       biomarker_test_type as genetic_test_type_name,\n       'NGS or PCR' as test_method_name,\n       dna_alteration as molecular_variant_name,\n       protein_alteration,\n       test_result as test_value_name\nfrom c3_gn360_202212_nsclc.genetic_test\nwhere biomarker_name = 'EGFR' and protein_alteration like 'p.E709%' and\ntest_value_name = 'Positive'"
+  },
+  {
+    "objectID": "EGFR_E709.html#notes-on-results",
+    "href": "EGFR_E709.html#notes-on-results",
+    "title": "EGFR E709 variant",
+    "section": "Notes on Results",
+    "text": "Notes on Results\n\nIn the results, there are some records that come up with molecular_variant_name (PT360) or dna_alteration (GN360) as c.2127_2129delAAC and protein_alteration as p.E709_T710>D or p.E709T710delinsD. You may want to check with your client or consider if this would be acceptable. Luckily, as of Q4 2022, there are only 3 records with these results, so it won’t decrease counts much."
   }
 ]

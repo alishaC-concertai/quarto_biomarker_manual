@@ -11,5 +11,5 @@ If you do not see the biomarker or variant that you need, it may be in progress.
 
 
 **Abbreviations**
-- AA: amino acid
+- AA: amino acid <br>
 - CDS: coding sequence

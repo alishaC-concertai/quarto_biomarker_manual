@@ -135,7 +135,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#example-code-pt360" id="toc-example-code-pt360" class="nav-link active" data-scroll-target="#example-code-pt360">Example code: PT360</a></li>
+  <li><a href="#example-code-gn360" id="toc-example-code-gn360" class="nav-link" data-scroll-target="#example-code-gn360">Example code: GN360</a></li>
+  <li><a href="#notes-on-results" id="toc-notes-on-results" class="nav-link" data-scroll-target="#notes-on-results">Notes on Results</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -157,11 +165,63 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p><em>Code updated for Q4 2022</em></p>
 <p>This variant, located on exon 18, is a single nucleotide missense mutation changing Glutamic Acid (Glu) to another amino acid, commonly to Aspartic Acid (Asp).</p>
 <p>This is not as common of a mutation as others like L858R and G719X, so numbers of patients with detected/positive results are going to be low.</p>
-<p><strong>AA alteration</strong>: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br> <strong>CDS mutation</strong>: c.2127A&gt;C, c.2125G&gt;A, c.2126A&gt;T, c.2126A&gt;G, c.2126A&gt;C, other others</p>
+<p><strong>AA mutation</strong>: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br> <strong>CDS mutation</strong>: c.2127A&gt;C, c.2125G&gt;A, c.2126A&gt;T, c.2126A&gt;G, c.2126A&gt;C, other others</p>
+<section id="example-code-pt360" class="level2">
+<h2 class="anchored" data-anchor-id="example-code-pt360">Example code: PT360</h2>
+<pre class="{sql}"><code>select chai_patient_id,
+       test_name_name,
+       test_date,
+       test_collection_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       test_value_name
+
+from c3_pt360_202212_nsclc.patient_test
+where test_name_name ilike '%EGFR%' and
+      molecular_variant_name similar to '%(E709|e709|codons 709)%' and
+      test_value_name = 'Positive';</code></pre>
+</section>
+<section id="example-code-gn360" class="level2">
+<h2 class="anchored" data-anchor-id="example-code-gn360">Example code: GN360</h2>
+<pre class="{sql}"><code>select chai_patient_id,
+       test_name_name,
+       test_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       'p.E709X' as protein_alteration,
+       test_value_name
+from c3_gn360_202212_nsclc.patient_test
+    where test_name_name like '%EGFR%' and molecular_variant_name similar to '%(E709|e709|codons 709)%'
+    and test_value_name = 'Positive'
 
 
+UNION
+
+select chai_patient_id,
+       biomarker_name as test_name_name,
+       report_date as test_date,
+       biomarker_test_type as genetic_test_type_name,
+       'NGS or PCR' as test_method_name,
+       dna_alteration as molecular_variant_name,
+       protein_alteration,
+       test_result as test_value_name
+from c3_gn360_202212_nsclc.genetic_test
+where biomarker_name = 'EGFR' and protein_alteration like 'p.E709%' and
+test_value_name = 'Positive'</code></pre>
+</section>
+<section id="notes-on-results" class="level2">
+<h2 class="anchored" data-anchor-id="notes-on-results">Notes on Results</h2>
+<ul>
+<li>In the results, there are some records that come up with molecular_variant_name (PT360) or dna_alteration (GN360) as <code>c.2127_2129delAAC</code> and protein_alteration as <code>p.E709_T710&gt;D</code> or <code>p.E709T710delinsD</code>. You may want to check with your client or consider if this would be acceptable. Luckily, as of Q4 2022, there are only 3 records with these results, so it won’t decrease counts much.<br></li>
+</ul>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

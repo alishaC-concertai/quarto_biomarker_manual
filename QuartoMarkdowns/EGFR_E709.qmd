@@ -1,12 +1,65 @@
 ---
-title: "EGFR E709 variant"
+title: "EGFR E709"
 ---
+
+*Code updated for Q4 2022*
 
 This variant, located on exon 18, is a single nucleotide missense mutation changing Glutamic Acid (Glu) to another amino acid, commonly to Aspartic Acid (Asp).
 
 This is not as common of a mutation as others like L858R and G719X, so numbers of patients with detected/positive results are going to be low.
 
-**AA alteration**: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br>
-**CDS mutation**: c.2127A>C, c.2125G>A, c.2126A>T, c.2126A>G, c.2126A>C, other others
+**AA mutation**: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br> 
+**CDS mutation**: c.2127A\>C, c.2125G\>A, c.2126A\>T, c.2126A\>G, c.2126A\>C, other others
+
+## Example code: PT360
+
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       test_collection_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       test_value_name
+
+from c3_pt360_202212_nsclc.patient_test
+where test_name_name ilike '%EGFR%' and
+      molecular_variant_name similar to '%(E709|e709|codons 709)%' and
+      test_value_name = 'Positive';
+```
+
+## Example code: GN360
+
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       'p.E709X' as protein_alteration,
+       test_value_name
+from c3_gn360_202212_nsclc.patient_test
+    where test_name_name like '%EGFR%' and molecular_variant_name similar to '%(E709|e709|codons 709)%'
+    and test_value_name = 'Positive'
 
 
+UNION
+
+select chai_patient_id,
+       biomarker_name as test_name_name,
+       report_date as test_date,
+       biomarker_test_type as genetic_test_type_name,
+       'NGS or PCR' as test_method_name,
+       dna_alteration as molecular_variant_name,
+       protein_alteration,
+       test_result as test_value_name
+from c3_gn360_202212_nsclc.genetic_test
+where biomarker_name = 'EGFR' and protein_alteration like 'p.E709%' and
+test_value_name = 'Positive'
+```
+
+## Notes and Recommendations
+
+-   In the results, there are some records that come up with molecular_variant_name (PT360) or dna_alteration (GN360) as `c.2127_2129delAAC` and protein_alteration as `p.E709_T710>D` or `p.E709T710delinsD`. You may want to check with your client or consider if this would be acceptable. Luckily, as of Q4 2022, there are only 3 records with these results, so it won't decrease counts much.<br>
