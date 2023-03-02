@@ -1,0 +1,9 @@
+---
+title: "About"
+---
+
+Biomarker recommendations will be updated quarterly. Each page will indicate whether the code has been updated for the current quarter's data release.
+
+Biomarker recommendations are based on what has been confirmed by looking in EMOL patient records, and inconsistencies that may be present. The goal is to be as thorough as possible, but if you see something that needs to be changed, please let me know. [link to email or jira]
+
+If you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. [link to email or jira]
