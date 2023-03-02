@@ -8,7 +8,7 @@ This variant, located on exon 18, is a single nucleotide missense mutation chang
 
 This is not as common of a mutation as others like L858R and G719X, so numbers of patients with detected/positive results are going to be low.
 
-**AA mutation**: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br> 
+**AA mutation**: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br /> 
 **CDS mutation**: c.2127A\>C, c.2125G\>A, c.2126A\>T, c.2126A\>G, c.2126A\>C, other others
 
 ## Example code: PT360
@@ -62,4 +62,4 @@ test_value_name = 'Positive'
 
 ## Notes and Recommendations
 
--   In the results, there are some records that come up with molecular_variant_name (PT360) or dna_alteration (GN360) as `c.2127_2129delAAC` and protein_alteration as `p.E709_T710>D` or `p.E709T710delinsD`. You may want to check with your client or consider if this would be acceptable. Luckily, as of Q4 2022, there are only 3 records with these results, so it won't decrease counts much.<br>
+-   In the results, there are some records that come up with molecular_variant_name (PT360) or dna_alteration (GN360) as `c.2127_2129delAAC` and protein_alteration as `p.E709_T710>D` or `p.E709T710delinsD`. You may want to check with your client or consider if this would be acceptable. Luckily, as of Q4 2022, there are only 3 records with these results, so it won't decrease counts much.<br />

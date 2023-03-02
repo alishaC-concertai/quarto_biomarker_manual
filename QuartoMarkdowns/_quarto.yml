@@ -14,8 +14,12 @@ website:
     contents:
       - section: "NSCLC"
         contents:
-            - href: EGFR_E709.qmd
-              text: EGFR E709
+          - section: "EGFR"
+            contents: 
+              - href: EGFR_E709.qmd
+                text: E709
+              - href: EGFR_G719.qmd
+                text: G719X
       - section: "Breast"
 
 format:

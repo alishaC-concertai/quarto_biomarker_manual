@@ -8,8 +8,6 @@ Biomarker recommendations are based on what has been confirmed by looking in EMO
 
 If you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. \[link to email or jira\]
 
-
-
-**Abbreviations**
-- AA: amino acid <br>
+**Abbreviations** <br />
+- AA: amino acid <br /> 
 - CDS: coding sequence
