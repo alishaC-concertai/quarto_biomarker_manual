@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Biomarkers - EGFR E709</title>
+<title>Biomarkers - EGFR_L861Q</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">EGFR E709</h1>
+      <h1 class="quarto-secondary-nav-title">EGFR_L861Q</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -140,7 +140,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./EGFR_E709.html" class="sidebar-item-text sidebar-link active">E709</a>
+  <a href="./EGFR_E709.html" class="sidebar-item-text sidebar-link">E709</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -155,7 +155,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./EGFR_L861Q.html" class="sidebar-item-text sidebar-link">L861Q</a>
+  <a href="./EGFR_L861Q.html" class="sidebar-item-text sidebar-link active">L861Q</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -184,9 +184,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#example-code-pt360" id="toc-example-code-pt360" class="nav-link active" data-scroll-target="#example-code-pt360">Example code: PT360</a></li>
-  <li><a href="#example-code-gn360" id="toc-example-code-gn360" class="nav-link" data-scroll-target="#example-code-gn360">Example code: GN360</a></li>
-  <li><a href="#notes-and-recommendations" id="toc-notes-and-recommendations" class="nav-link" data-scroll-target="#notes-and-recommendations">Notes and Recommendations</a></li>
+  <li><a href="#example-code-pt360" id="toc-example-code-pt360" class="nav-link active" data-scroll-target="#example-code-pt360">Example Code: PT360</a></li>
+  <li><a href="#example-code-gn360" id="toc-example-code-gn360" class="nav-link" data-scroll-target="#example-code-gn360">Example Code: GN360</a></li>
   </ul>
 </nav>
     </div>
@@ -195,7 +194,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">EGFR E709</h1>
+<h1 class="title d-none d-lg-block">EGFR_L861Q</h1>
 </div>
 
 
@@ -211,11 +210,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p><em>Code updated for Q4 2022</em></p>
-<p>This variant, located on exon 18, is a single nucleotide missense mutation changing Glutamic Acid (Glu) to another amino acid, commonly to Aspartic Acid (Asp).</p>
-<p>This is not as common of a mutation as others like L858R and G719X, so numbers of patients with detected/positive results are going to be low.</p>
-<p><strong>AA mutation</strong>: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br> <strong>CDS mutation</strong>: c.2127A&gt;C, c.2125G&gt;A, c.2126A&gt;T, c.2126A&gt;G, c.2126A&gt;C, other others</p>
+<p>A less common point mutation in EGFR that changes Leucine to Glutamine, that is pretty simple and straight forward to pull from the data.</p>
+<p><strong>CDS mutation</strong>: c.2582T&gt;A <br> <strong>AA mutation</strong>: p.L861Q, p.Leu861Gln</p>
 <section id="example-code-pt360" class="level2">
-<h2 class="anchored" data-anchor-id="example-code-pt360">Example code: PT360</h2>
+<h2 class="anchored" data-anchor-id="example-code-pt360">Example Code: PT360</h2>
 <pre class="{sql}"><code>select chai_patient_id,
        test_name_name,
        test_date,
@@ -223,27 +221,29 @@ ul.task-list li input[type="checkbox"] {
        genetic_test_type_name,
        test_method_name,
        molecular_variant_name,
-       test_value_name
-
-from c3_pt360_202212_nsclc.patient_test
-where test_name_name ilike '%EGFR%' and
-      molecular_variant_name similar to '%(E709|e709|codons 709)%' and
-      test_value_name = 'Positive';</code></pre>
+       test_value_name,
+       curation_indicator
+       from c3_pt360_202212_nsclc.patient_test
+    where test_name_name like '%EGFR%' and
+          molecular_variant_name similar to '%(L861Q|258_T[:&gt;]A)%|%L861' and
+          test_method_name not similar to '%(FISH|in situ|immuno)%' and genetic_test_type_name &lt;&gt; 'Gene deletion';</code></pre>
 </section>
 <section id="example-code-gn360" class="level2">
-<h2 class="anchored" data-anchor-id="example-code-gn360">Example code: GN360</h2>
+<h2 class="anchored" data-anchor-id="example-code-gn360">Example Code: GN360</h2>
 <pre class="{sql}"><code>select chai_patient_id,
        test_name_name,
        test_date,
        genetic_test_type_name,
        test_method_name,
        molecular_variant_name,
-       'p.E709X' as protein_alteration,
+       'p.L861Q' as protein_alteration,
        test_value_name
-from c3_gn360_202212_nsclc.patient_test
-    where test_name_name like '%EGFR%' and molecular_variant_name similar to '%(E709|e709|codons 709)%'
-    and test_value_name = 'Positive'
 
+from c3_gn360_202212_nsclc.patient_test
+    where test_name_name like '%EGFR%' AND
+          molecular_variant_name similar to '%(L861Q|2582T[:&gt;]A)%|%L861' and
+          test_method_name not similar to '%(FISH|in situ|immuno)%' and 
+          genetic_test_type_name &lt;&gt; 'Gene deletion'
 
 UNION
 
@@ -251,19 +251,13 @@ select chai_patient_id,
        biomarker_name as test_name_name,
        report_date as test_date,
        biomarker_test_type as genetic_test_type_name,
-       'NGS or PCR' as test_method_name,
+       'NGS' as test_method_name,
        dna_alteration as molecular_variant_name,
        protein_alteration,
        test_result as test_value_name
 from c3_gn360_202212_nsclc.genetic_test
-where biomarker_name = 'EGFR' and protein_alteration like 'p.E709%' and
-test_value_name = 'Positive'</code></pre>
-</section>
-<section id="notes-and-recommendations" class="level2">
-<h2 class="anchored" data-anchor-id="notes-and-recommendations">Notes and Recommendations</h2>
-<ul>
-<li>In the results, there are some records that come up with molecular_variant_name (PT360) or dna_alteration (GN360) as <code>c.2127_2129delAAC</code> and protein_alteration as <code>p.E709_T710&gt;D</code> or <code>p.E709T710delinsD</code>. You may want to check with your client or consider if this would be acceptable. Luckily, as of Q4 2022, there are only 3 records with these results, so it won’t decrease counts much.<br></li>
-</ul>
+where biomarker_name = 'EGFR' and
+      protein_alteration similar to '%L861Q%|%L861';</code></pre>
 
 
 </section>

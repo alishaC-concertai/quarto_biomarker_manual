@@ -1,15 +1,16 @@
 ---
 title: "EGFR L858R"
 ---
+
 *Code updated for Q4 2022*
 
-L858R usually refers to a missense point mutation located on exon 21. However, keep in mind that there are an inversion and an indel that are also labeled as p.Leu858Arg, but AA mutation notation is c.2572_2573inv, and c.2573_2574delinsGT, respectively. 
+L858R usually refers to a missense point mutation located on exon 21. However, keep in mind that there are an inversion and an indel that are also labeled as p.Leu858Arg, but AA mutation notation is c.2572_2573inv, and c.2573_2574delinsGT, respectively.
 
-**CDS mutation**: c.2573T>G, c.2572_2573inv, c.2573_2574delinsGT <br>
-**AA mutation**: p.L858R, p.Leu858Arg
-
+**AA mutation**: p.L858R, p.Leu858Arg <br> 
+**CDS mutation**: c.2573T\>G, c.2572_2573inv, c.2573_2574delinsGT <br>
 
 ## Example Code: PT360
+
 ```{sql}
 select chai_patient_id,
        test_name_name,
@@ -30,8 +31,8 @@ where test_name_name ilike '%EGFR%'
 
 ```
 
-
 ## Example Code: GN360
+
 ```{sql}
 select chai_patient_id,
        test_name_name,
@@ -63,5 +64,3 @@ select chai_patient_id,
 from c3_gn360_202212_nsclc.genetic_test
 where biomarker_name = 'EGFR' and protein_alteration = 'p.L858R';
 ```
-
-
