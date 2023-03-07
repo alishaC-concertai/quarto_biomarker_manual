@@ -16,10 +16,20 @@ website:
         contents:
           - section: "EGFR"
             contents: 
+              - href: EGFR_del19.qmd
+                text: Exon 19 deletion
               - href: EGFR_E709.qmd
                 text: E709
               - href: EGFR_G719.qmd
                 text: G719X
+              - href: EGFR_L858R.qmd
+                text: L858R
+              - href: EGFR_L861Q.qmd
+                text: L861Q
+              - href: EGFR_S768I.qmd
+                text: S768I
+              - href: EGFR_T790M.qmd
+                text: T790M
       - section: "Breast"
 
 format:

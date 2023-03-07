@@ -1,16 +1,16 @@
 ---
 title: "EGFR G719X"
 ---
-*Code updated for Q4 2022*
 
+*Code updated for Q4 2022*
 
 This variant, located on exon 18, is a single nucleotide missense mutation changing Glycine (Gly) to another amino acid, commonly to Alanine (Ala).
 
-**AA mutation**: p.G719X (X could be D, A, R, S, C, or possibly others) <br />
-**CDS mutation**: c.2155G>A, c.2155G>C, c.2155G>T, c.2156G>A, c.2156G>C
-
+**AA mutation**: p.G719X (X could be D, A, R, S, C, or possibly others) <br> 
+**CDS mutation**: c.2155G\>A, c.2155G\>C, c.2155G\>T, c.2156G\>A, c.2156G\>C
 
 ## Example Code: PT360
+
 ```{sql}
 select chai_patient_id,
        test_name_name,
@@ -31,8 +31,8 @@ select chai_patient_id,
           test_value_name = 'Positive';
 ```
 
-
 ## Example Code: GN360
+
 ```{sql}
 select chai_patient_id,
        test_name_name,
@@ -69,10 +69,8 @@ where biomarker_name = 'EGFR' AND
           test_value_name = 'Positive';
 ```
 
-
-
 ## Notes and Recommendations
 
-- Notice that IHC and FISH are being removed as test methods. There is some evidence that there are ways to identify some variants of EGFR via IHC, but after checking the patient records that have these methods listed, it was actually found that the test method *should* be listed as PCR or NGS. The patient(s) marked as having FISH as a method is also incorrect.<br />
+-   Notice that IHC and FISH are being removed as test methods. There is some evidence that there are ways to identify some variants of EGFR via IHC, but after checking the patient records that have these methods listed, it was actually found that the test method *should* be listed as PCR or NGS. The patient(s) marked as having FISH as a method is also incorrect.<br />
 
-- Note that genetic test types similar to `'%(amp|del)%'` are being removed. This is removing `Gene amplification` and `Gene deletion`. These are inaccurate since this is a missense mutation.<br />
+-   Note that genetic test types similar to `'%(amp|del)%'` are being removed. This is removing `Gene amplification` and `Gene deletion`. These are inaccurate since this is a missense mutation.<br />

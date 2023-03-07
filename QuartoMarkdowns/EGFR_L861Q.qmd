@@ -1,0 +1,64 @@
+---
+title: "EGFR_L861Q"
+---
+*Code updated for Q4 2022*
+
+A less common point mutation in EGFR that changes Leucine to Glutamine, that is pretty simple and straight forward to pull from the data.
+
+**CDS mutation**: c.2582T>A <br>
+**AA mutation**: p.L861Q, p.Leu861Gln
+
+
+## Example Code: PT360
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       test_collection_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       test_value_name,
+       curation_indicator
+       from c3_pt360_202212_nsclc.patient_test
+    where test_name_name like '%EGFR%' and
+          molecular_variant_name similar to '%(L861Q|258_T[:>]A)%|%L861' and
+          test_method_name not similar to '%(FISH|in situ|immuno)%' and genetic_test_type_name <> 'Gene deletion';
+```
+
+
+## Example Code: GN360
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       'p.L861Q' as protein_alteration,
+       test_value_name
+
+from c3_gn360_202212_nsclc.patient_test
+    where test_name_name like '%EGFR%' AND
+          molecular_variant_name similar to '%(L861Q|2582T[:>]A)%|%L861' and
+          test_method_name not similar to '%(FISH|in situ|immuno)%' and 
+          genetic_test_type_name <> 'Gene deletion'
+
+UNION
+
+select chai_patient_id,
+       biomarker_name as test_name_name,
+       report_date as test_date,
+       biomarker_test_type as genetic_test_type_name,
+       'NGS' as test_method_name,
+       dna_alteration as molecular_variant_name,
+       protein_alteration,
+       test_result as test_value_name
+from c3_gn360_202212_nsclc.genetic_test
+where biomarker_name = 'EGFR' and
+      protein_alteration similar to '%L861Q%|%L861';
+```
+
+
+
+

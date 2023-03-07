@@ -130,12 +130,22 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./EGFR_del19.html" class="sidebar-item-text sidebar-link">Exon 19 deletion</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./EGFR_E709.html" class="sidebar-item-text sidebar-link">E709</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./EGFR_G719.html" class="sidebar-item-text sidebar-link">G719X</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./EGFR_L858R.html" class="sidebar-item-text sidebar-link">L858R</a>
   </div>
 </li>
       </ul>
@@ -175,6 +185,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Biomarker recommendations will be updated quarterly. Each page will indicate whether the code has been updated for the current quarter’s data release.</p>
 <p>Biomarker recommendations are based on what has been confirmed by looking in EMOL patient records, and inconsistencies that may be present. The goal is to be as thorough as possible, but if you see something that needs to be changed, please let me know. [link to email or jira]</p>
 <p>If you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. [link to email or jira]</p>
+<p>** Of Note**: When pulling biomarker records from GN360, it is necessary to query both genetic_test and patient_test tables. We found that in some cases, for some genes/biomarkers, there are patients listed in patient_test that are not in genetic_test. Because of this, please remember to query both tables.</p>
 <p><strong>Abbreviations</strong> <br> - AA: amino acid <br> - CDS: coding sequence</p>
 
 

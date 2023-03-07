@@ -8,6 +8,9 @@ Biomarker recommendations are based on what has been confirmed by looking in EMO
 
 If you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. \[link to email or jira\]
 
-**Abbreviations** <br />
-- AA: amino acid <br /> 
-- CDS: coding sequence
+\*\* Of Note\*\*: When pulling biomarker records from GN360, it is necessary to query both genetic_test and patient_test tables. We found that in some cases, for some genes/biomarkers, there are patients listed in patient_test that are not in genetic_test. Because of this, please remember to query both tables.
+
+**Abbreviations** <br> 
+- AA: amino acid <br> 
+- CDS: coding sequence <br>
+- TKIs: Tyrosine kinase inhibitors<br>

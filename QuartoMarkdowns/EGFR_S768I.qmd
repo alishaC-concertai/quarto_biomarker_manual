@@ -1,0 +1,68 @@
+---
+title: "EGFR S768I"
+---
+*Code updated for Q4 2022*
+
+S768I is a mutation that is not one of the top most common mutations in EGFR, so numbers could be fairly low in comparison to others like L858R or exon 19 deletion. It is a missense mutation on exon 20, but also shares the same AA notation as an indel on exon 20, c.2303_2304delinsTT.
+
+**CDS mutation**: c.2303G>T, c.2303_2304delinsTT<br>
+**AA mutation**: p.S768I, p.Ser768Ile
+
+
+## Example Code: PT360
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       test_collection_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
+       test_value_name,
+       curation_indicator
+       from c3_pt360_202212_nsclc.patient_test
+    where test_name_name like '%EGFR%' AND
+          molecular_variant_name similar to '%(S768I|2303G[:>]T)%|%S768' and
+          test_method_name not in ('Immunohistochemistry or immunocytochemistry, per specimen; initial single antibody stain procedure',
+                                  'Molecular cytogenetics; DNA probe, each (eg, FISH)') ;
+```
+
+
+## Example Code: GN360
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       'p.S768I' as protein_alteration,
+       test_value_name
+
+from c3_gn360_202212_nsclc.patient_test
+    where test_name_name like '%EGFR%' AND
+          molecular_variant_name similar to '%(S768I|2303G[:>]T)%|%S768' and
+          test_method_name not in ('Immunohistochemistry or immunocytochemistry, per specimen; initial single antibody stain procedure',
+                                  'Molecular cytogenetics; DNA probe, each (eg, FISH)')
+
+UNION
+
+select chai_patient_id,
+       biomarker_name as test_name_name,
+       report_date as test_date,
+       biomarker_test_type as genetic_test_type_name,
+       'NGS' as test_method_name,
+       dna_alteration as molecular_variant_name,
+       protein_alteration,
+       test_result as test_value_name
+from c3_gn360_202212_nsclc.genetic_test
+where biomarker_name = 'EGFR' and
+      protein_alteration similar to '%(S768I)%';
+
+```
+
+
+
+## Notes and Recommendations
+- Note that IHC and FISH are note valid testing methods for this particular mutation

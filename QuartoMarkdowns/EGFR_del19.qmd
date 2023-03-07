@@ -1,0 +1,113 @@
+---
+title: "EGFR del19"
+format: html
+editor: visual
+---
+
+*Code updated for Q4 2022*
+
+Deletion in exon 19 can be a deletion in different locations on exon 19 of EGFR. Because of this, it can be complicated to capture all of the diversity of annotations in the data.
+
+**Common CDS mutation (among others)**: c.2235_2249del, c.2239_2251del <br>
+**Common AA mutation (among others)**: p.E746_A750del, p.L747-A750\>P, p.L747_S752del
+
+## Example Code: PT360
+
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       test_collection_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
+       test_value_name
+
+from c3_pt360_202212_nsclc.patient_test
+where test_name_name ilike '%EGFR%'
+  and (lower(molecular_variant_name) similar to '%(del%ex%19|ex%19%del|exon deletion 19|e746_a750|c.2236_2250delgaattaagag aagca (p.glu746_ala750del)| ' ||
+                                                'p.l74l_s752del|exon 19 e746_a750|p.glu746_ala750del|del19 (p.e746_a650del)|del 19|c.2235_2249del|' ||
+                                                'del%e746_a750|l747_a750>p|exon 19 p.e746_a750|e746_a750delinsv|del%19|e746_1750del|l747_p753‚àö√â¬¨√á‚àö√á¬¨¬™S|' ||
+                                                'exon 19 l747_t51|746-a750|l747_t751del|e746 a750del|p.l747_p753delinss (c.2240_2257del18)|' ||
+                                                'e746_r748del|e746-a750|exon 19 glu746-ala750|exon 19 c2236_2250 del|e746_a750%del|c.2235-2249del15|exon 19, l747_a750|' ||
+                                                'p. l747_s752|e746-a750 del|exon 19 e746-a750|e746-a750del|p.l747_pro753delinss|del%e746_a750|s752_i759del|p.glu746_ala750del|' ||
+                                                'exon 19 p.e746-s752|exon 19 p.e746_a750delelrea (c.2235_2249del15)|l747_a750>p|leu747-a1a750|exon 19 pE746_A750|c.2240_2257del|' ||
+                                                'e746_l747%del|l747_t751del|c.2235_2249del|l747-a750 del|e746_l747>1p|l747_a750del/insp|p.l747_p753del lrearsp>s|' ||
+                                                'p.glu746-ala750|p.e746_a70|c.2239_2248delinsc(p.l747_a750delinsp|c.2235_2249del (p. e746_a759del)|e748-a750del|glu746-ala750 deletion|' ||
+                                                'glu746_ala750del|p.747-T751delins|p.glu746-ala750|c.2236_2250del|glu 746_ala750|p.l747_p753del|glu746_ser752delins|e746_a750del|' ||
+                                                'glu746-ala 750|glu 746-ala 750 deletion|c.2240_2254del(p.l747_t751 del)|exon 19 ae 746-a750|e19del|exon 19%l747_t751|e19del|' ||
+                                                'c.2235_2249del;2250a>g p.delglu746_ala750|exon 19, l747_t751del|exon 19 deletion (p.leu747_ala750delinspro)|e746_a750del5|' ||
+                                                'c.2239_2251delinsc;p.l74-t751delinsp|exon 19 - c.2236_2250|p.l747_t751del|p.e746-t751 del/ins|L747_P753delins|2235-2249del(p.e750del)|' ||
+                                                'e19glu746-ala750 deletion|p.e746_t751>a or p.e746_s752>a exon 19|exon 19 p. e746 a750|p.e746_t751delinsa|c.2239_2256deliostca(p.l747_t751del)|' ||
+                                                'l747_a750delinsp;2239_2248delinsc|c.2235-2249del (p.e746-2750del)|c.2235_2249del15|c.2236_2250del;p.e746_a750d|exon 19 p.l747_a750|' ||
+                                                'exon 19; e746-a750|e746-a750|p.l747-p753|exon18-p.e746_t751|p.glu746_ala750del|glu_746_ala750del|e756_a750del5|p.l747_a755del/ins|' ||
+                                                'p.l747_t751|c.2236_2244delgaattga|c.2235-2249del))%'
+    and genetic_test_type_name not in ('Genomic structural variant copy number','Not Recorded''Gene rearrangement','Gene amplification','Genomic Structural Variation') and
+        lower(test_method_name) not similar to '%ish%|%in situ%') or
+    (lower(genetic_test_type_name) in ('gene deletion', 'deletion mutation')
+                and (lower(molecular_variant_name) similar to '%(ex%19|l747_t751|e746_a750|l747 exon 19|e746_t751|p.l747_t751|lrea 747-750 exon 19|exon 19,S752_I759)%'
+                     or molecular_variant_name = '19'));
+
+
+```
+
+## Example Code: GN360
+
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       'p.E746_A750del' as protein_alteration,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
+       test_value_name
+
+from c3_gn360_202212_nsclc.patient_test
+where test_name_name ilike '%EGFR%'
+  and (lower(molecular_variant_name) similar to '%(del%ex%19|ex%19%del|exon deletion 19|e746_a750|c.2236_2250delgaattaagag aagca (p.glu746_ala750del)| ' ||
+                                                'p.l74l_s752del|exon 19 e746_a750|p.glu746_ala750del|del19 (p.e746_a650del)|del 19|c.2235_2249del|' ||
+                                                'del%e746_a750|l747_a750>p|exon 19 p.e746_a750|e746_a750delinsv|del%19|e746_1750del|l747_p753‚àö√â¬¨√á‚àö√á¬¨¬™S|' ||
+                                                'exon 19 l747_t51|746-a750|l747_t751del|e746 a750del|p.l747_p753delinss (c.2240_2257del18)|' ||
+                                                'e746_r748del|e746-a750|exon 19 glu746-ala750|exon 19 c2236_2250 del|e746_a750%del|c.2235-2249del15|exon 19, l747_a750|' ||
+                                                'p. l747_s752|e746-a750 del|exon 19 e746-a750|e746-a750del|p.l747_pro753delinss|del%e746_a750|s752_i759del|p.glu746_ala750del|' ||
+                                                'exon 19 p.e746-s752|exon 19 p.e746_a750delelrea (c.2235_2249del15)|l747_a750>p|leu747-a1a750|exon 19 pE746_A750|c.2240_2257del|' ||
+                                                'e746_l747%del|l747_t751del|c.2235_2249del|l747-a750 del|e746_l747>1p|l747_a750del/insp|p.l747_p753del lrearsp>s|' ||
+                                                'p.glu746-ala750|p.e746_a70|c.2239_2248delinsc(p.l747_a750delinsp|c.2235_2249del (p. e746_a759del)|e748-a750del|glu746-ala750 deletion|' ||
+                                                'glu746_ala750del|p.747-T751delins|p.glu746-ala750|c.2236_2250del|glu 746_ala750|p.l747_p753del|glu746_ser752delins|e746_a750del|' ||
+                                                'glu746-ala 750|glu 746-ala 750 deletion|c.2240_2254del(p.l747_t751 del)|exon 19 ae 746-a750|e19del|exon 19%l747_t751|e19del|' ||
+                                                'c.2235_2249del;2250a>g p.delglu746_ala750|exon 19, l747_t751del|exon 19 deletion (p.leu747_ala750delinspro)|e746_a750del5|' ||
+                                                'c.2239_2251delinsc;p.l74-t751delinsp|exon 19 - c.2236_2250|p.l747_t751del|p.e746-t751 del/ins|L747_P753delins|2235-2249del(p.e750del)|' ||
+                                                'e19glu746-ala750 deletion|p.e746_t751>a or p.e746_s752>a exon 19|exon 19 p. e746 a750|p.e746_t751delinsa|c.2239_2256deliostca(p.l747_t751del)|' ||
+                                                'l747_a750delinsp;2239_2248delinsc|c.2235-2249del (p.e746-2750del)|c.2235_2249del15|c.2236_2250del;p.e746_a750d|exon 19 p.l747_a750|' ||
+                                                'exon 19; e746-a750|e746-a750|p.l747-p753|exon18-p.e746_t751|p.glu746_ala750del|glu_746_ala750del|e756_a750del5|p.l747_a755del/ins|' ||
+                                                'p.l747_t751|c.2236_2244delgaattga|c.2235-2249del))%'
+    and genetic_test_type_name not in ('Genomic structural variant copy number','Not Recorded''Gene rearrangement','Gene amplification','Genomic Structural Variation') and
+        lower(test_method_name) not similar to '%ish%|%in situ%') or
+    (lower(genetic_test_type_name) in ('gene deletion', 'deletion mutation')
+                and (lower(molecular_variant_name) similar to '%(ex%19|l747_t751|e746_a750|l747 exon 19|e746_t751|p.l747_t751|lrea 747-750 exon 19|exon 19,S752_I759)%'
+                     or molecular_variant_name = '19'))
+
+UNION
+
+select chai_patient_id,
+       biomarker_name as test_name_name,
+       report_date as test_date,
+       biomarker_test_type as genetic_test_type_name,
+       'NGS' as test_method_name,
+       dna_alteration as molecular_variant_name,
+       protein_alteration,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
+       test_result as test_value_name
+from genetic_test
+where biomarker_name = 'EGFR' and
+      (dna_alteration ilike '%del%' and
+      dna_alteration not in ('c.2127_2129delAAC','c.2154_2155delinsTT','c.2303_2305delinsTCT','c.2317delCinsTACCCCAACCCCT','c.2303_2305delinsTCT',
+                             'c.2311_2312delinsGGGTT','c.2317delCinsTACCCCAACCCCT','c.2335_2336delinsTT','c.2572_2573delinsAG','c.888_889delinsTT',
+                             'c.2573_2574delTGinsGT','c.2709_2710delinsCA','c.2827_2828delinsAC','c.3158delA','c.443_444delinsCT','c.447delG','c.746_751del',
+                             'c.P753del') and
+      protein_alteration <> 'p.G719A') OR
+      protein_alteration similar to '%(E736[:_]|A750[:_]|p.E746[:_]|L747[:_]|T751[_:]|E746del|S752[:_])%';
+```

@@ -1,0 +1,70 @@
+---
+title: "EGFR T790M"
+---
+*Code updated for Q4 2022*
+
+T790M is a missense point mutation located on exon 20. This mutation is regarded as the most common cause of resistance to TKIs.
+
+
+**CDS mutation**: c.2368C>T <br>
+**AA mutation**: p.T790M, p.Thr790Met
+
+
+## Example Code: PT360
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       test_collection_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       test_value_name,
+       curation_indicator
+from c3_pt360_202212_nsclc.patient_test
+where test_name_name ilike '%EGFR%'
+  and ((molecular_variant_name ilike '%exon%20%' and molecular_variant_name ilike '%790%')
+           or lower(molecular_variant_name_clean) similar to '%(thr790met|t790m|2369c>t)%')
+  and molecular_variant_name not in ('E790K', 'p.T790L', 'exon 19 positive (negative T790M', 'exon 19 mutation, negative T790M', 'p.T790A')
+  and genetic_test_type_name not in ('Small InDel','Genomic structural variant copy number','Gene deletion','Gene rearrangement','Protein Expression')
+  and lower(test_method_name) not similar to '%ish%|%in situ%|%immuno%|not recorded';
+```
+
+
+## Example Code: GN360
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       'p.T790M' as protein_alteration,
+       test_value_name
+
+from c3_gn360_202212_nsclc.patient_test
+where test_name_name ilike '%EGFR%'
+  and ((molecular_variant_name ilike '%exon%20%' and molecular_variant_name ilike '%790%')
+           or lower(molecular_variant_name_clean) similar to '%(thr790met|t790m|2369c>t)%')
+  and molecular_variant_name not in ('E790K', 'p.T790L', 'exon 19 positive (negative T790M', 'exon 19 mutation, negative T790M', 'p.T790A')
+  and genetic_test_type_name not in ('Small InDel','Genomic structural variant copy number','Gene deletion','Gene rearrangement','Protein Expression')
+  and lower(test_method_name) not similar to '%ish%|%in situ%|%immuno%|not recorded'
+
+UNION
+
+select chai_patient_id,
+       biomarker_name as test_name_name,
+       report_date as test_date,
+       biomarker_test_type as genetic_test_type_name,
+       'NGS' as test_method_name,
+       dna_alteration as molecular_variant_name,
+       protein_alteration,
+       test_result as test_value_name
+
+from c3_gn360_202212_nsclc.genetic_test
+where biomarker_name = 'EGFR' and protein_alteration = 'p.T790M';
+```
+
+
+
+

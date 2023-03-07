@@ -1,0 +1,67 @@
+---
+title: "EGFR L858R"
+---
+*Code updated for Q4 2022*
+
+L858R usually refers to a missense point mutation located on exon 21. However, keep in mind that there are an inversion and an indel that are also labeled as p.Leu858Arg, but AA mutation notation is c.2572_2573inv, and c.2573_2574delinsGT, respectively. 
+
+**CDS mutation**: c.2573T>G, c.2572_2573inv, c.2573_2574delinsGT <br>
+**AA mutation**: p.L858R, p.Leu858Arg
+
+
+## Example Code: PT360
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       test_collection_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
+       test_value_name,
+       curation_indicator
+from c3_pt360_202212_nsclc.patient_test
+where test_name_name ilike '%EGFR%'
+    and lower(molecular_variant_name_clean) similar to
+           '%(l858r|l85r|2573t>g|2573t&g|2573t.g|t2573g|2573_2574deltginsgt|2572_2573del|2572_2573ct>a|2572-2573ct>ag|leu858arg)%' and
+    genetic_test_type_name not in ('Genomic structural variant copy number','Gene amplification') and
+    test_method_name not similar to '%ish%|%in situ%';
+
+```
+
+
+## Example Code: GN360
+```{sql}
+select chai_patient_id,
+       test_name_name,
+       test_date,
+       genetic_test_type_name,
+       test_method_name,
+       molecular_variant_name,
+       'p.L858R' as protein_alteration,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
+       test_value_name
+from c3_gn360_202212_nsclc.patient_test
+where test_name_name ilike '%EGFR%'
+    and lower(molecular_variant_name_clean) similar to
+           '%(l858r|l85r|2573t>g|2573t&g|2573t.g|t2573g|2573_2574deltginsgt|2572_2573del|2572_2573ct>a|2572-2573ct>ag|leu858arg)%' and
+    genetic_test_type_name not in ('Genomic structural variant copy number','Gene amplification') and
+    test_method_name not similar to '%ish%|%in situ%'
+
+UNION
+
+select chai_patient_id,
+       biomarker_name as test_name_name,
+       report_date as test_date,
+       biomarker_test_type as genetic_test_type_name,
+       'NGS' as test_method_name,
+       dna_alteration as molecular_variant_name,
+       protein_alteration,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
+       test_result as test_value_name
+from c3_gn360_202212_nsclc.genetic_test
+where biomarker_name = 'EGFR' and protein_alteration = 'p.L858R';
+```
+
+

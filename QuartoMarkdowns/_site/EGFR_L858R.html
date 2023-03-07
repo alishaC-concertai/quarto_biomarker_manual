@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Biomarkers - EGFR G719X</title>
+<title>Biomarkers - EGFR L858R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">EGFR G719X</h1>
+      <h1 class="quarto-secondary-nav-title">EGFR L858R</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -140,12 +140,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./EGFR_G719.html" class="sidebar-item-text sidebar-link active">G719X</a>
+  <a href="./EGFR_G719.html" class="sidebar-item-text sidebar-link">G719X</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./EGFR_L858R.html" class="sidebar-item-text sidebar-link">L858R</a>
+  <a href="./EGFR_L858R.html" class="sidebar-item-text sidebar-link active">L858R</a>
   </div>
 </li>
       </ul>
@@ -166,7 +166,6 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#example-code-pt360" id="toc-example-code-pt360" class="nav-link active" data-scroll-target="#example-code-pt360">Example Code: PT360</a></li>
   <li><a href="#example-code-gn360" id="toc-example-code-gn360" class="nav-link" data-scroll-target="#example-code-gn360">Example Code: GN360</a></li>
-  <li><a href="#notes-and-recommendations" id="toc-notes-and-recommendations" class="nav-link" data-scroll-target="#notes-and-recommendations">Notes and Recommendations</a></li>
   </ul>
 </nav>
     </div>
@@ -175,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">EGFR G719X</h1>
+<h1 class="title d-none d-lg-block">EGFR L858R</h1>
 </div>
 
 
@@ -191,8 +190,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p><em>Code updated for Q4 2022</em></p>
-<p>This variant, located on exon 18, is a single nucleotide missense mutation changing Glycine (Gly) to another amino acid, commonly to Alanine (Ala).</p>
-<p><strong>AA mutation</strong>: p.G719X (X could be D, A, R, S, C, or possibly others) <br> <strong>CDS mutation</strong>: c.2155G&gt;A, c.2155G&gt;C, c.2155G&gt;T, c.2156G&gt;A, c.2156G&gt;C</p>
+<p>L858R usually refers to a missense point mutation located on exon 21. However, keep in mind that there are an inversion and an indel that are also labeled as p.Leu858Arg, but AA mutation notation is c.2572_2573inv, and c.2573_2574delinsGT, respectively.</p>
+<p><strong>CDS mutation</strong>: c.2573T&gt;G, c.2572_2573inv, c.2573_2574delinsGT <br> <strong>AA mutation</strong>: p.L858R, p.Leu858Arg</p>
 <section id="example-code-pt360" class="level2">
 <h2 class="anchored" data-anchor-id="example-code-pt360">Example Code: PT360</h2>
 <pre class="{sql}"><code>select chai_patient_id,
@@ -202,16 +201,16 @@ ul.task-list li input[type="checkbox"] {
        genetic_test_type_name,
        test_method_name,
        molecular_variant_name,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
        test_value_name,
        curation_indicator
-       from c3_pt360_202212_nsclc.patient_test
-    where test_name_name like '%EGFR%' AND
-          molecular_variant_name similar to '%(G719|Gly719|c.215_G)%' and
-          molecular_variant_name &lt;&gt; 'G7195 8709 a' and
-          test_method_name not in ('Immunohistochemistry or immunocytochemistry, per specimen; initial single antibody stain procedure',
-                                  'Molecular cytogenetics; DNA probe, each (eg, FISH)') and
-          lower(genetic_test_type_name) not similar to '%(amp|del)%' and 
-          test_value_name = 'Positive';</code></pre>
+from c3_pt360_202212_nsclc.patient_test
+where test_name_name ilike '%EGFR%'
+    and lower(molecular_variant_name_clean) similar to
+           '%(l858r|l85r|2573t&gt;g|2573t&amp;g|2573t.g|t2573g|2573_2574deltginsgt|2572_2573del|2572_2573ct&gt;a|2572-2573ct&gt;ag|leu858arg)%' and
+    genetic_test_type_name not in ('Genomic structural variant copy number','Gene amplification') and
+    test_method_name not similar to '%ish%|%in situ%';
+</code></pre>
 </section>
 <section id="example-code-gn360" class="level2">
 <h2 class="anchored" data-anchor-id="example-code-gn360">Example Code: GN360</h2>
@@ -221,18 +220,15 @@ ul.task-list li input[type="checkbox"] {
        genetic_test_type_name,
        test_method_name,
        molecular_variant_name,
-       'p.G719X' as protein_alteration,
+       'p.L858R' as protein_alteration,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
        test_value_name
-
 from c3_gn360_202212_nsclc.patient_test
-
-where test_name_name like '%EGFR%' and
-      molecular_variant_name similar to '%(G719|Gly719|c.215_G)%' and
-          molecular_variant_name &lt;&gt; 'G7195 8709 a' and
-          test_method_name not in ('Immunohistochemistry or immunocytochemistry, per specimen; initial single antibody stain procedure',
-                                  'Molecular cytogenetics; DNA probe, each (eg, FISH)') and
-      lower(genetic_test_type_name) not similar to '%(amp|del)%'
-      and test_value_name = 'Positive'
+where test_name_name ilike '%EGFR%'
+    and lower(molecular_variant_name_clean) similar to
+           '%(l858r|l85r|2573t&gt;g|2573t&amp;g|2573t.g|t2573g|2573_2574deltginsgt|2572_2573del|2572_2573ct&gt;a|2572-2573ct&gt;ag|leu858arg)%' and
+    genetic_test_type_name not in ('Genomic structural variant copy number','Gene amplification') and
+    test_method_name not similar to '%ish%|%in situ%'
 
 UNION
 
@@ -243,18 +239,10 @@ select chai_patient_id,
        'NGS' as test_method_name,
        dna_alteration as molecular_variant_name,
        protein_alteration,
+       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
        test_result as test_value_name
 from c3_gn360_202212_nsclc.genetic_test
-where biomarker_name = 'EGFR' AND
-          protein_alteration similar to '%G719%'and
-          test_value_name = 'Positive';</code></pre>
-</section>
-<section id="notes-and-recommendations" class="level2">
-<h2 class="anchored" data-anchor-id="notes-and-recommendations">Notes and Recommendations</h2>
-<ul>
-<li><p>Notice that IHC and FISH are being removed as test methods. There is some evidence that there are ways to identify some variants of EGFR via IHC, but after checking the patient records that have these methods listed, it was actually found that the test method <em>should</em> be listed as PCR or NGS. The patient(s) marked as having FISH as a method is also incorrect.<br></p></li>
-<li><p>Note that genetic test types similar to <code>'%(amp|del)%'</code> are being removed. This is removing <code>Gene amplification</code> and <code>Gene deletion</code>. These are inaccurate since this is a missense mutation.<br></p></li>
-</ul>
+where biomarker_name = 'EGFR' and protein_alteration = 'p.L858R';</code></pre>
 
 
 </section>
