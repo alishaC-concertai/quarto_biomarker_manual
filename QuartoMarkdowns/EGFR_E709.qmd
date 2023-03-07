@@ -8,7 +8,8 @@ This variant, located on exon 18, is a single nucleotide missense mutation chang
 
 This is not as common of a mutation as others like L858R and G719X, so numbers of patients with detected/positive results are going to be low.
 
-**AA mutation**: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br /> **CDS mutation**: c.2127A\>C, c.2125G\>A, c.2126A\>T, c.2126A\>G, c.2126A\>C, other others
+**AA mutation**: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br > 
+**CDS mutation**: c.2127A\>C, c.2125G\>A, c.2126A\>T, c.2126A\>G, c.2126A\>C, other others
 
 ## Example code: PT360
 

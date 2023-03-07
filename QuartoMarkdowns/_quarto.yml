@@ -18,6 +18,8 @@ website:
             contents: 
               - href: EGFR_del19.qmd
                 text: Exon 19 deletion
+              - href: EGFR_ex20ins.qmd
+                text: Exon 20 insertions
               - href: EGFR_E709.qmd
                 text: E709
               - href: EGFR_G719.qmd

@@ -1,15 +1,17 @@
 ---
-title: "EGFR_L861Q"
+title: "EGFR L861Q"
 ---
+
 *Code updated for Q4 2022*
 
 A less common point mutation in EGFR that changes Leucine to Glutamine, that is pretty simple and straight forward to pull from the data.
 
-**CDS mutation**: c.2582T>A <br>
-**AA mutation**: p.L861Q, p.Leu861Gln
 
+**AA mutation**: p.L861Q, p.Leu861Gln <br>
+**CDS mutation**: c.2582T\>A <br> 
 
 ## Example Code: PT360
+
 ```{sql}
 select chai_patient_id,
        test_name_name,
@@ -26,8 +28,8 @@ select chai_patient_id,
           test_method_name not similar to '%(FISH|in situ|immuno)%' and genetic_test_type_name <> 'Gene deletion';
 ```
 
-
 ## Example Code: GN360
+
 ```{sql}
 select chai_patient_id,
        test_name_name,
@@ -58,7 +60,3 @@ from c3_gn360_202212_nsclc.genetic_test
 where biomarker_name = 'EGFR' and
       protein_alteration similar to '%L861Q%|%L861';
 ```
-
-
-
-

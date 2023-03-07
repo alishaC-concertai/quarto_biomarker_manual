@@ -1,16 +1,17 @@
 ---
 title: "EGFR T790M"
 ---
+
 *Code updated for Q4 2022*
 
 T790M is a missense point mutation located on exon 20. This mutation is regarded as the most common cause of resistance to TKIs.
 
 
-**CDS mutation**: c.2368C>T <br>
-**AA mutation**: p.T790M, p.Thr790Met
-
+**AA mutation**: p.T790M, p.Thr790Met<br>
+**CDS mutation**: c.2368C\>T <br> 
 
 ## Example Code: PT360
+
 ```{sql}
 select chai_patient_id,
        test_name_name,
@@ -30,8 +31,8 @@ where test_name_name ilike '%EGFR%'
   and lower(test_method_name) not similar to '%ish%|%in situ%|%immuno%|not recorded';
 ```
 
-
 ## Example Code: GN360
+
 ```{sql}
 select chai_patient_id,
        test_name_name,
@@ -64,7 +65,3 @@ select chai_patient_id,
 from c3_gn360_202212_nsclc.genetic_test
 where biomarker_name = 'EGFR' and protein_alteration = 'p.T790M';
 ```
-
-
-
-

@@ -11,7 +11,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Biomarker recommendations will be updated quarterly. Each page will indicate whether the code has been updated for the current quarter’s data release.\nBiomarker recommendations are based on what has been confirmed by looking in EMOL patient records, and inconsistencies that may be present. The goal is to be as thorough as possible, but if you see something that needs to be changed, please let me know. [link to email or jira]\nIf you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. [link to email or jira]\n** Of Note**: When pulling biomarker records from GN360, it is necessary to query both genetic_test and patient_test tables. We found that in some cases, for some genes/biomarkers, there are patients listed in patient_test that are not in genetic_test. Because of this, please remember to query both tables.\nAbbreviations  - AA: amino acid  - CDS: coding sequence"
+    "text": "Biomarker recommendations will be updated quarterly. Each page will indicate whether the code has been updated for the current quarter’s data release.\nBiomarker recommendations are based on what has been confirmed by looking in EMOL patient records, and inconsistencies that may be present. The goal is to be as thorough as possible, but if you see something that needs to be changed, please let me know. [link to email or jira]\nIf you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. [link to email or jira]\n** Of Note**: When pulling biomarker records from GN360, it is necessary to query both genetic_test and patient_test tables. We found that in some cases, for some genes/biomarkers, there are patients listed in patient_test that are not in genetic_test. Because of this, please remember to query both tables.\nAbbreviations  - AA: amino acid  - CDS: coding sequence  - TKIs: Tyrosine kinase inhibitors"
   },
   {
     "objectID": "EGFR_E709.html",
@@ -117,5 +117,103 @@
     "title": "EGFR del19",
     "section": "Example Code: GN360",
     "text": "Example Code: GN360\nselect chai_patient_id,\n       test_name_name,\n       test_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       'p.E746_A750del' as protein_alteration,\n       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,\n       test_value_name\n\nfrom c3_gn360_202212_nsclc.patient_test\nwhere test_name_name ilike '%EGFR%'\n  and (lower(molecular_variant_name) similar to '%(del%ex%19|ex%19%del|exon deletion 19|e746_a750|c.2236_2250delgaattaagag aagca (p.glu746_ala750del)| ' ||\n                                                'p.l74l_s752del|exon 19 e746_a750|p.glu746_ala750del|del19 (p.e746_a650del)|del 19|c.2235_2249del|' ||\n                                                'del%e746_a750|l747_a750>p|exon 19 p.e746_a750|e746_a750delinsv|del%19|e746_1750del|l747_p753‚àö√â¬¨√á‚àö√á¬¨¬™S|' ||\n                                                'exon 19 l747_t51|746-a750|l747_t751del|e746 a750del|p.l747_p753delinss (c.2240_2257del18)|' ||\n                                                'e746_r748del|e746-a750|exon 19 glu746-ala750|exon 19 c2236_2250 del|e746_a750%del|c.2235-2249del15|exon 19, l747_a750|' ||\n                                                'p. l747_s752|e746-a750 del|exon 19 e746-a750|e746-a750del|p.l747_pro753delinss|del%e746_a750|s752_i759del|p.glu746_ala750del|' ||\n                                                'exon 19 p.e746-s752|exon 19 p.e746_a750delelrea (c.2235_2249del15)|l747_a750>p|leu747-a1a750|exon 19 pE746_A750|c.2240_2257del|' ||\n                                                'e746_l747%del|l747_t751del|c.2235_2249del|l747-a750 del|e746_l747>1p|l747_a750del/insp|p.l747_p753del lrearsp>s|' ||\n                                                'p.glu746-ala750|p.e746_a70|c.2239_2248delinsc(p.l747_a750delinsp|c.2235_2249del (p. e746_a759del)|e748-a750del|glu746-ala750 deletion|' ||\n                                                'glu746_ala750del|p.747-T751delins|p.glu746-ala750|c.2236_2250del|glu 746_ala750|p.l747_p753del|glu746_ser752delins|e746_a750del|' ||\n                                                'glu746-ala 750|glu 746-ala 750 deletion|c.2240_2254del(p.l747_t751 del)|exon 19 ae 746-a750|e19del|exon 19%l747_t751|e19del|' ||\n                                                'c.2235_2249del;2250a>g p.delglu746_ala750|exon 19, l747_t751del|exon 19 deletion (p.leu747_ala750delinspro)|e746_a750del5|' ||\n                                                'c.2239_2251delinsc;p.l74-t751delinsp|exon 19 - c.2236_2250|p.l747_t751del|p.e746-t751 del/ins|L747_P753delins|2235-2249del(p.e750del)|' ||\n                                                'e19glu746-ala750 deletion|p.e746_t751>a or p.e746_s752>a exon 19|exon 19 p. e746 a750|p.e746_t751delinsa|c.2239_2256deliostca(p.l747_t751del)|' ||\n                                                'l747_a750delinsp;2239_2248delinsc|c.2235-2249del (p.e746-2750del)|c.2235_2249del15|c.2236_2250del;p.e746_a750d|exon 19 p.l747_a750|' ||\n                                                'exon 19; e746-a750|e746-a750|p.l747-p753|exon18-p.e746_t751|p.glu746_ala750del|glu_746_ala750del|e756_a750del5|p.l747_a755del/ins|' ||\n                                                'p.l747_t751|c.2236_2244delgaattga|c.2235-2249del))%'\n    and genetic_test_type_name not in ('Genomic structural variant copy number','Not Recorded''Gene rearrangement','Gene amplification','Genomic Structural Variation') and\n        lower(test_method_name) not similar to '%ish%|%in situ%') or\n    (lower(genetic_test_type_name) in ('gene deletion', 'deletion mutation')\n                and (lower(molecular_variant_name) similar to '%(ex%19|l747_t751|e746_a750|l747 exon 19|e746_t751|p.l747_t751|lrea 747-750 exon 19|exon 19,S752_I759)%'\n                     or molecular_variant_name = '19'))\n\nUNION\n\nselect chai_patient_id,\n       biomarker_name as test_name_name,\n       report_date as test_date,\n       biomarker_test_type as genetic_test_type_name,\n       'NGS' as test_method_name,\n       dna_alteration as molecular_variant_name,\n       protein_alteration,\n       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,\n       test_result as test_value_name\nfrom genetic_test\nwhere biomarker_name = 'EGFR' and\n      (dna_alteration ilike '%del%' and\n      dna_alteration not in ('c.2127_2129delAAC','c.2154_2155delinsTT','c.2303_2305delinsTCT','c.2317delCinsTACCCCAACCCCT','c.2303_2305delinsTCT',\n                             'c.2311_2312delinsGGGTT','c.2317delCinsTACCCCAACCCCT','c.2335_2336delinsTT','c.2572_2573delinsAG','c.888_889delinsTT',\n                             'c.2573_2574delTGinsGT','c.2709_2710delinsCA','c.2827_2828delinsAC','c.3158delA','c.443_444delinsCT','c.447delG','c.746_751del',\n                             'c.P753del') and\n      protein_alteration <> 'p.G719A') OR\n      protein_alteration similar to '%(E736[:_]|A750[:_]|p.E746[:_]|L747[:_]|T751[_:]|E746del|S752[:_])%';"
+  },
+  {
+    "objectID": "EGFR_T790M.html",
+    "href": "EGFR_T790M.html",
+    "title": "EGFR T790M",
+    "section": "",
+    "text": "Code updated for Q4 2022\nT790M is a missense point mutation located on exon 20. This mutation is regarded as the most common cause of resistance to TKIs.\nCDS mutation: c.2368C>T  AA mutation: p.T790M, p.Thr790Met"
+  },
+  {
+    "objectID": "EGFR_T790M.html#example-code-pt360",
+    "href": "EGFR_T790M.html#example-code-pt360",
+    "title": "EGFR T790M",
+    "section": "Example Code: PT360",
+    "text": "Example Code: PT360\nselect chai_patient_id,\n       test_name_name,\n       test_date,\n       test_collection_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       test_value_name,\n       curation_indicator\nfrom c3_pt360_202212_nsclc.patient_test\nwhere test_name_name ilike '%EGFR%'\n  and ((molecular_variant_name ilike '%exon%20%' and molecular_variant_name ilike '%790%')\n           or lower(molecular_variant_name_clean) similar to '%(thr790met|t790m|2369c>t)%')\n  and molecular_variant_name not in ('E790K', 'p.T790L', 'exon 19 positive (negative T790M', 'exon 19 mutation, negative T790M', 'p.T790A')\n  and genetic_test_type_name not in ('Small InDel','Genomic structural variant copy number','Gene deletion','Gene rearrangement','Protein Expression')\n  and lower(test_method_name) not similar to '%ish%|%in situ%|%immuno%|not recorded';"
+  },
+  {
+    "objectID": "EGFR_T790M.html#example-code-gn360",
+    "href": "EGFR_T790M.html#example-code-gn360",
+    "title": "EGFR T790M",
+    "section": "Example Code: GN360",
+    "text": "Example Code: GN360\nselect chai_patient_id,\n       test_name_name,\n       test_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       'p.T790M' as protein_alteration,\n       test_value_name\n\nfrom c3_gn360_202212_nsclc.patient_test\nwhere test_name_name ilike '%EGFR%'\n  and ((molecular_variant_name ilike '%exon%20%' and molecular_variant_name ilike '%790%')\n           or lower(molecular_variant_name_clean) similar to '%(thr790met|t790m|2369c>t)%')\n  and molecular_variant_name not in ('E790K', 'p.T790L', 'exon 19 positive (negative T790M', 'exon 19 mutation, negative T790M', 'p.T790A')\n  and genetic_test_type_name not in ('Small InDel','Genomic structural variant copy number','Gene deletion','Gene rearrangement','Protein Expression')\n  and lower(test_method_name) not similar to '%ish%|%in situ%|%immuno%|not recorded'\n\nUNION\n\nselect chai_patient_id,\n       biomarker_name as test_name_name,\n       report_date as test_date,\n       biomarker_test_type as genetic_test_type_name,\n       'NGS' as test_method_name,\n       dna_alteration as molecular_variant_name,\n       protein_alteration,\n       test_result as test_value_name\n\nfrom c3_gn360_202212_nsclc.genetic_test\nwhere biomarker_name = 'EGFR' and protein_alteration = 'p.T790M';"
+  },
+  {
+    "objectID": "EGFR_S768I.html",
+    "href": "EGFR_S768I.html",
+    "title": "EGFR S768I",
+    "section": "",
+    "text": "Code updated for Q4 2022\nS768I is a mutation that is not one of the top most common mutations in EGFR, so numbers could be fairly low in comparison to others like L858R or exon 19 deletion. It is a missense mutation on exon 20, but also shares the same AA notation as an indel on exon 20, c.2303_2304delinsTT.\nCDS mutation: c.2303G>T, c.2303_2304delinsTT AA mutation: p.S768I, p.Ser768Ile"
+  },
+  {
+    "objectID": "EGFR_S768I.html#example-code-pt360",
+    "href": "EGFR_S768I.html#example-code-pt360",
+    "title": "EGFR S768I",
+    "section": "Example Code: PT360",
+    "text": "Example Code: PT360\nselect chai_patient_id,\n       test_name_name,\n       test_date,\n       test_collection_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,\n       test_value_name,\n       curation_indicator\n       from c3_pt360_202212_nsclc.patient_test\n    where test_name_name like '%EGFR%' AND\n          molecular_variant_name similar to '%(S768I|2303G[:>]T)%|%S768' and\n          test_method_name not in ('Immunohistochemistry or immunocytochemistry, per specimen; initial single antibody stain procedure',\n                                  'Molecular cytogenetics; DNA probe, each (eg, FISH)') ;"
+  },
+  {
+    "objectID": "EGFR_S768I.html#example-code-gn360",
+    "href": "EGFR_S768I.html#example-code-gn360",
+    "title": "EGFR S768I",
+    "section": "Example Code: GN360",
+    "text": "Example Code: GN360\nselect chai_patient_id,\n       test_name_name,\n       test_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       'p.S768I' as protein_alteration,\n       test_value_name\n\nfrom c3_gn360_202212_nsclc.patient_test\n    where test_name_name like '%EGFR%' AND\n          molecular_variant_name similar to '%(S768I|2303G[:>]T)%|%S768' and\n          test_method_name not in ('Immunohistochemistry or immunocytochemistry, per specimen; initial single antibody stain procedure',\n                                  'Molecular cytogenetics; DNA probe, each (eg, FISH)')\n\nUNION\n\nselect chai_patient_id,\n       biomarker_name as test_name_name,\n       report_date as test_date,\n       biomarker_test_type as genetic_test_type_name,\n       'NGS' as test_method_name,\n       dna_alteration as molecular_variant_name,\n       protein_alteration,\n       test_result as test_value_name\nfrom c3_gn360_202212_nsclc.genetic_test\nwhere biomarker_name = 'EGFR' and\n      protein_alteration similar to '%(S768I)%';"
+  },
+  {
+    "objectID": "EGFR_S768I.html#notes-and-recommendations",
+    "href": "EGFR_S768I.html#notes-and-recommendations",
+    "title": "EGFR S768I",
+    "section": "Notes and Recommendations",
+    "text": "Notes and Recommendations\n\nNote that IHC and FISH are note valid testing methods for this particular mutation"
+  },
+  {
+    "objectID": "EGFR_ex20ins.html",
+    "href": "EGFR_ex20ins.html",
+    "title": "EGFR Exon 20 insertions",
+    "section": "",
+    "text": "Code updated for Q4 2022\nExon 20 insertions is another one of those mutation types that is not as straight forward as you may think since the insertion can occur in multiple possible places along exon 20."
+  },
+  {
+    "objectID": "EGFR_ex20ins.html#example-code-pt360",
+    "href": "EGFR_ex20ins.html#example-code-pt360",
+    "title": "EGFR Exon 20 insertions",
+    "section": "Example Code: PT360",
+    "text": "Example Code: PT360\nSELECT chai_patient_id,\n       test_name_name,\n       test_date,\n       test_collection_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       test_value_name,\n       curation_indicator\nfrom c3_pt360_202212_nsclc.patient_test\nwhere test_name_name similar to 'EGFR%'\nand (lower(molecular_variant_name) similar to lower ('%(76[1-9][_-]|77[0-5][_-]|V769 D770insASV|exon 20 insertion|exon 20 insertion|EXON 20 Insertion|' ||\n                                                     'N771delinsTH|2310-2311 ins GGT|2310_2311insGGT|2311_2312ins8GCGTGGACA|2307-2308 ins GCCAGCGTG|' ||\n                                                     '2307_2308ins9GCCAGCGTG|2307-2308 ins OCCAGCGTG|2307_2308ins9|H773DELINSPHPN|exon 20  8 bp ins|' ||\n                                                     '20Ins 9|20Ins9|20 Ins9|exon 20 ins|e20ins|EXON 20 INS|exon 20  12 bp ins|Exon 20 12 bp ins|' ||\n                                                     'exon 20  3 bp ins|Exon 20 3 bp ins|2317delinsTACT|exon 20c[.]2312_2313insACAC|exon 20  6 bp ins|' ||\n                                                     'Exon 20 6 bp ins|Exon 20 8 bp ins|A775 G776insYVMA exon 20|H773delinsYY|H773 V774insH ex 20|' ||\n                                                     '2319_2320insCAC|2319-2320 ins CAC|2319 2320insCAC|2319-2320 ins CAC|H773delinsYPNPY|H773dup|' ||\n                                                     'D770delinsGY|D770delinsGY|2308_2309insGTT|2311_2312delinsGGGTT|N771delinsGF|N771>PH|V769 D770insASV|' ||\n                                                     'D770>GY|N771_H773>HHPH|N771>KG|N771_P772>SVDNA|H773>YNPY|2284-5_2290dup)%'))\nand molecular_variant_name not in ('c.2303GCG>TCT, p.S768_V769L','c.2303_2305delinsTCT, p.S768_V769delinsIL','p.D770_N771delinsGY');"
+  },
+  {
+    "objectID": "EGFR_ex20ins.html#example-code-gn360",
+    "href": "EGFR_ex20ins.html#example-code-gn360",
+    "title": "EGFR Exon 20 insertions",
+    "section": "Example Code: GN360",
+    "text": "Example Code: GN360\nselect chai_patient_id,\n       test_value_name\nfrom patient_test\nwhere test_name_name similar to 'EGFR%'\n     and (lower(molecular_variant_name) similar to\n          lower('%(76[1-9][_-]|77[0-5][_-]|V769 D770insASV|exon 20 insertion|exon 20 insertion|EXON 20 Insertion|' ||\n                          'N771delinsTH|2310-2311 ins GGT|2310_2311insGGT|2311_2312ins8GCGTGGACA|2307-2308 ins GCCAGCGTG|' ||\n                          '2307_2308ins9GCCAGCGTG|2307-2308 ins OCCAGCGTG|2307_2308ins9|H773DELINSPHPN|exon 20  8 bp ins|' ||\n                          '20Ins 9|20Ins9|20 Ins9|exon 20 ins|e20ins|EXON 20 INS|exon 20  12 bp ins|' ||\n                          'Exon 20 12 bp ins|exon 20  3 bp ins|Exon 20 3 bp ins|2317delinsTACT|exon 20c[.]2312_2313insACAC|' ||\n                          'exon 20  6 bp ins|Exon 20 6 bp ins|Exon 20 8 bp ins|A775 G776insYVMA exon 20|H773delinsYY|' ||\n                          'H773 V774insH ex 20|2319_2320insCAC|2319-2320 ins CAC|2319 2320insCAC|2319-2320 ins CAC|' ||\n                          'H773delinsYPNPY|H773dup|D770delinsGY|D770delinsGY|2308_2309insGTT|2311_2312delinsGGGTT|N771delinsGF|' ||\n                          'N771>PH|V769 D770insASV|D770>GY|N771_H773>HHPH|N771>KG|N771_P772>SVDNA|H773>YNPY|2284-5_2290dup)%'))\n       and molecular_variant_name not in\n                   ('c.2303GCG>TCT, p.S768_V769L', 'c.2303_2305delinsTCT, p.S768_V769delinsIL', 'p.D770_N771delinsGY')\n\nUNION\n\nselect chai_patient_id,\n       test_result as test_value_name\nfrom genetic_test\nwhere biomarker_name ilike '%EGFR%'\n      and variant_grouping = 'EGFR Exon 20 Insertion Mutation'\n      and test_result ilike '%positive%'\n      and (protein_alteration not in ('p.C797S', 'p.D770_N771delinsGY', 'p.S768_V769L', 'p.S768_V769delinsIL') or protein_alteration is null)"
+  },
+  {
+    "objectID": "EGFR_ex20ins.html#notes-and-recommendations",
+    "href": "EGFR_ex20ins.html#notes-and-recommendations",
+    "title": "EGFR Exon 20 insertions",
+    "section": "Notes and Recommendations",
+    "text": "Notes and Recommendations\nAlthough S768I is located on exon 20 and can be an indel, thus is technically an exon 20 insertion, these are removed to distinguish the two mutation categories. You may want to consult with your client to see if they would prefer to keep them separated as distinct mutations, or if it is okay to keep them lumped together as one category"
+  },
+  {
+    "objectID": "EGFR_L861Q.html",
+    "href": "EGFR_L861Q.html",
+    "title": "EGFR_L861Q",
+    "section": "",
+    "text": "Code updated for Q4 2022\nA less common point mutation in EGFR that changes Leucine to Glutamine, that is pretty simple and straight forward to pull from the data.\nCDS mutation: c.2582T>A  AA mutation: p.L861Q, p.Leu861Gln"
+  },
+  {
+    "objectID": "EGFR_L861Q.html#example-code-pt360",
+    "href": "EGFR_L861Q.html#example-code-pt360",
+    "title": "EGFR_L861Q",
+    "section": "Example Code: PT360",
+    "text": "Example Code: PT360\nselect chai_patient_id,\n       test_name_name,\n       test_date,\n       test_collection_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       test_value_name,\n       curation_indicator\n       from c3_pt360_202212_nsclc.patient_test\n    where test_name_name like '%EGFR%' and\n          molecular_variant_name similar to '%(L861Q|258_T[:>]A)%|%L861' and\n          test_method_name not similar to '%(FISH|in situ|immuno)%' and genetic_test_type_name <> 'Gene deletion';"
+  },
+  {
+    "objectID": "EGFR_L861Q.html#example-code-gn360",
+    "href": "EGFR_L861Q.html#example-code-gn360",
+    "title": "EGFR_L861Q",
+    "section": "Example Code: GN360",
+    "text": "Example Code: GN360\nselect chai_patient_id,\n       test_name_name,\n       test_date,\n       genetic_test_type_name,\n       test_method_name,\n       molecular_variant_name,\n       'p.L861Q' as protein_alteration,\n       test_value_name\n\nfrom c3_gn360_202212_nsclc.patient_test\n    where test_name_name like '%EGFR%' AND\n          molecular_variant_name similar to '%(L861Q|2582T[:>]A)%|%L861' and\n          test_method_name not similar to '%(FISH|in situ|immuno)%' and \n          genetic_test_type_name <> 'Gene deletion'\n\nUNION\n\nselect chai_patient_id,\n       biomarker_name as test_name_name,\n       report_date as test_date,\n       biomarker_test_type as genetic_test_type_name,\n       'NGS' as test_method_name,\n       dna_alteration as molecular_variant_name,\n       protein_alteration,\n       test_result as test_value_name\nfrom c3_gn360_202212_nsclc.genetic_test\nwhere biomarker_name = 'EGFR' and\n      protein_alteration similar to '%L861Q%|%L861';"
   }
 ]

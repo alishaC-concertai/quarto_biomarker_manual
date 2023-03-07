@@ -8,8 +8,8 @@ editor: visual
 
 Deletion in exon 19 can be a deletion in different locations on exon 19 of EGFR. Because of this, it can be complicated to capture all of the diversity of annotations in the data.
 
-**Common CDS mutation (among others)**: c.2235_2249del, c.2239_2251del <br>
-**Common AA mutation (among others)**: p.E746_A750del, p.L747-A750\>P, p.L747_S752del
+**Common AA mutation (among others)**: p.E746_A750del, p.L747-A750\>P, p.L747_S752del <br>
+**Common CDS mutation (among others)**: c.2235_2249del, c.2239_2251del <br> 
 
 ## Example Code: PT360
 

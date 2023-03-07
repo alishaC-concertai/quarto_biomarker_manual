@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Biomarkers - EGFR E709</title>
+<title>Biomarkers - EGFR Exon 20 insertions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">EGFR E709</h1>
+      <h1 class="quarto-secondary-nav-title">EGFR Exon 20 insertions</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -135,12 +135,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./EGFR_ex20ins.html" class="sidebar-item-text sidebar-link">Exon 20 insertions</a>
+  <a href="./EGFR_ex20ins.html" class="sidebar-item-text sidebar-link active">Exon 20 insertions</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./EGFR_E709.html" class="sidebar-item-text sidebar-link active">E709</a>
+  <a href="./EGFR_E709.html" class="sidebar-item-text sidebar-link">E709</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -184,8 +184,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#example-code-pt360" id="toc-example-code-pt360" class="nav-link active" data-scroll-target="#example-code-pt360">Example code: PT360</a></li>
-  <li><a href="#example-code-gn360" id="toc-example-code-gn360" class="nav-link" data-scroll-target="#example-code-gn360">Example code: GN360</a></li>
+  <li><a href="#example-code-pt360" id="toc-example-code-pt360" class="nav-link active" data-scroll-target="#example-code-pt360">Example Code: PT360</a></li>
+  <li><a href="#example-code-gn360" id="toc-example-code-gn360" class="nav-link" data-scroll-target="#example-code-gn360">Example Code: GN360</a></li>
   <li><a href="#notes-and-recommendations" id="toc-notes-and-recommendations" class="nav-link" data-scroll-target="#notes-and-recommendations">Notes and Recommendations</a></li>
   </ul>
 </nav>
@@ -195,7 +195,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">EGFR E709</h1>
+<h1 class="title d-none d-lg-block">EGFR Exon 20 insertions</h1>
 </div>
 
 
@@ -211,59 +211,63 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p><em>Code updated for Q4 2022</em></p>
-<p>This variant, located on exon 18, is a single nucleotide missense mutation changing Glutamic Acid (Glu) to another amino acid, commonly to Aspartic Acid (Asp).</p>
-<p>This is not as common of a mutation as others like L858R and G719X, so numbers of patients with detected/positive results are going to be low.</p>
-<p><strong>AA mutation</strong>: p.E709A, p.E709K, p.E709V, p.E709Q, p.E709D, p.E709G <br> <strong>CDS mutation</strong>: c.2127A&gt;C, c.2125G&gt;A, c.2126A&gt;T, c.2126A&gt;G, c.2126A&gt;C, other others</p>
+<p>Exon 20 insertions is another one of those mutation types that is not as straight forward as you may think since the insertion can occur in multiple possible places along exon 20.</p>
 <section id="example-code-pt360" class="level2">
-<h2 class="anchored" data-anchor-id="example-code-pt360">Example code: PT360</h2>
-<pre class="{sql}"><code>select chai_patient_id,
+<h2 class="anchored" data-anchor-id="example-code-pt360">Example Code: PT360</h2>
+<pre class="{sql}"><code>SELECT chai_patient_id,
        test_name_name,
        test_date,
        test_collection_date,
        genetic_test_type_name,
        test_method_name,
        molecular_variant_name,
-       test_value_name
-
+       test_value_name,
+       curation_indicator
 from c3_pt360_202212_nsclc.patient_test
-where test_name_name ilike '%EGFR%' and
-      molecular_variant_name similar to '%(E709|e709|codons 709)%' and
-      test_value_name = 'Positive';</code></pre>
+where test_name_name similar to 'EGFR%'
+and (lower(molecular_variant_name) similar to lower ('%(76[1-9][_-]|77[0-5][_-]|V769 D770insASV|exon 20 insertion|exon 20 insertion|EXON 20 Insertion|' ||
+                                                     'N771delinsTH|2310-2311 ins GGT|2310_2311insGGT|2311_2312ins8GCGTGGACA|2307-2308 ins GCCAGCGTG|' ||
+                                                     '2307_2308ins9GCCAGCGTG|2307-2308 ins OCCAGCGTG|2307_2308ins9|H773DELINSPHPN|exon 20  8 bp ins|' ||
+                                                     '20Ins 9|20Ins9|20 Ins9|exon 20 ins|e20ins|EXON 20 INS|exon 20  12 bp ins|Exon 20 12 bp ins|' ||
+                                                     'exon 20  3 bp ins|Exon 20 3 bp ins|2317delinsTACT|exon 20c[.]2312_2313insACAC|exon 20  6 bp ins|' ||
+                                                     'Exon 20 6 bp ins|Exon 20 8 bp ins|A775 G776insYVMA exon 20|H773delinsYY|H773 V774insH ex 20|' ||
+                                                     '2319_2320insCAC|2319-2320 ins CAC|2319 2320insCAC|2319-2320 ins CAC|H773delinsYPNPY|H773dup|' ||
+                                                     'D770delinsGY|D770delinsGY|2308_2309insGTT|2311_2312delinsGGGTT|N771delinsGF|N771&gt;PH|V769 D770insASV|' ||
+                                                     'D770&gt;GY|N771_H773&gt;HHPH|N771&gt;KG|N771_P772&gt;SVDNA|H773&gt;YNPY|2284-5_2290dup)%'))
+and molecular_variant_name not in ('c.2303GCG&gt;TCT, p.S768_V769L','c.2303_2305delinsTCT, p.S768_V769delinsIL','p.D770_N771delinsGY');</code></pre>
 </section>
 <section id="example-code-gn360" class="level2">
-<h2 class="anchored" data-anchor-id="example-code-gn360">Example code: GN360</h2>
+<h2 class="anchored" data-anchor-id="example-code-gn360">Example Code: GN360</h2>
 <pre class="{sql}"><code>select chai_patient_id,
-       test_name_name,
-       test_date,
-       genetic_test_type_name,
-       test_method_name,
-       molecular_variant_name,
-       'p.E709X' as protein_alteration,
        test_value_name
-from c3_gn360_202212_nsclc.patient_test
-    where test_name_name like '%EGFR%' and molecular_variant_name similar to '%(E709|e709|codons 709)%'
-    and test_value_name = 'Positive'
-
+from patient_test
+where test_name_name similar to 'EGFR%'
+     and (lower(molecular_variant_name) similar to
+          lower('%(76[1-9][_-]|77[0-5][_-]|V769 D770insASV|exon 20 insertion|exon 20 insertion|EXON 20 Insertion|' ||
+                          'N771delinsTH|2310-2311 ins GGT|2310_2311insGGT|2311_2312ins8GCGTGGACA|2307-2308 ins GCCAGCGTG|' ||
+                          '2307_2308ins9GCCAGCGTG|2307-2308 ins OCCAGCGTG|2307_2308ins9|H773DELINSPHPN|exon 20  8 bp ins|' ||
+                          '20Ins 9|20Ins9|20 Ins9|exon 20 ins|e20ins|EXON 20 INS|exon 20  12 bp ins|' ||
+                          'Exon 20 12 bp ins|exon 20  3 bp ins|Exon 20 3 bp ins|2317delinsTACT|exon 20c[.]2312_2313insACAC|' ||
+                          'exon 20  6 bp ins|Exon 20 6 bp ins|Exon 20 8 bp ins|A775 G776insYVMA exon 20|H773delinsYY|' ||
+                          'H773 V774insH ex 20|2319_2320insCAC|2319-2320 ins CAC|2319 2320insCAC|2319-2320 ins CAC|' ||
+                          'H773delinsYPNPY|H773dup|D770delinsGY|D770delinsGY|2308_2309insGTT|2311_2312delinsGGGTT|N771delinsGF|' ||
+                          'N771&gt;PH|V769 D770insASV|D770&gt;GY|N771_H773&gt;HHPH|N771&gt;KG|N771_P772&gt;SVDNA|H773&gt;YNPY|2284-5_2290dup)%'))
+       and molecular_variant_name not in
+                   ('c.2303GCG&gt;TCT, p.S768_V769L', 'c.2303_2305delinsTCT, p.S768_V769delinsIL', 'p.D770_N771delinsGY')
 
 UNION
 
 select chai_patient_id,
-       biomarker_name as test_name_name,
-       report_date as test_date,
-       biomarker_test_type as genetic_test_type_name,
-       'NGS or PCR' as test_method_name,
-       dna_alteration as molecular_variant_name,
-       protein_alteration,
        test_result as test_value_name
-from c3_gn360_202212_nsclc.genetic_test
-where biomarker_name = 'EGFR' and protein_alteration like 'p.E709%' and
-test_value_name = 'Positive'</code></pre>
+from genetic_test
+where biomarker_name ilike '%EGFR%'
+      and variant_grouping = 'EGFR Exon 20 Insertion Mutation'
+      and test_result ilike '%positive%'
+      and (protein_alteration not in ('p.C797S', 'p.D770_N771delinsGY', 'p.S768_V769L', 'p.S768_V769delinsIL') or protein_alteration is null)</code></pre>
 </section>
 <section id="notes-and-recommendations" class="level2">
 <h2 class="anchored" data-anchor-id="notes-and-recommendations">Notes and Recommendations</h2>
-<ul>
-<li>In the results, there are some records that come up with molecular_variant_name (PT360) or dna_alteration (GN360) as <code>c.2127_2129delAAC</code> and protein_alteration as <code>p.E709_T710&gt;D</code> or <code>p.E709T710delinsD</code>. You may want to check with your client or consider if this would be acceptable. Luckily, as of Q4 2022, there are only 3 records with these results, so it won’t decrease counts much.<br></li>
-</ul>
+<p>Although S768I is located on exon 20 and can be an indel, thus is technically an exon 20 insertion, these are removed to distinguish the two mutation categories. You may want to consult with your client to see if they would prefer to keep them separated as distinct mutations, or if it is okay to keep them lumped together as one category</p>
 
 
 </section>
