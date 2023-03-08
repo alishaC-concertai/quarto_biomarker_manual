@@ -4,10 +4,11 @@ title: "EGFR L858R"
 
 *Code updated for Q4 2022*
 
-L858R usually refers to a missense point mutation located on exon 21. However, keep in mind that there are an inversion and an indel that are also labeled as p.Leu858Arg, but AA mutation notation is c.2572_2573inv, and c.2573_2574delinsGT, respectively.
+L858R usually refers to a missense point mutation located on exon 21. However, keep in mind that there are an inversion and indel that are also labeled as p.Leu858Arg, but AA mutation notation is c.2572_2573inv, and c.2573_2574delinsGT, respectively.
 
-**AA mutation**: p.L858R, p.Leu858Arg <br> 
-**CDS mutation**: c.2573T\>G, c.2572_2573inv, c.2573_2574delinsGT <br>
+See <a href="https://www.ncbi.nlm.nih.gov/clinvar/?term=l858R+EGFR">ClinVar</a> for more information
+
+**AA mutation**: p.L858R, p.Leu858Arg <br> **CDS mutation**: c.2573T\>G, c.2572_2573inv, c.2573_2574delinsGT <br>
 
 ## Example Code: PT360
 

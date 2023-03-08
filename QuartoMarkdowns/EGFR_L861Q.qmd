@@ -6,9 +6,9 @@ title: "EGFR L861Q"
 
 A less common point mutation in EGFR that changes Leucine to Glutamine, that is pretty simple and straight forward to pull from the data.
 
+See <a href="https://www.ncbi.nlm.nih.gov/clinvar/variation/163380/?oq=L861Q[VARNAME]+EGFR&m=NM_005228.5(EGFR):c.2582T%3EA%20(p.Leu861Gln)">ClinVar</a> for more information.
 
-**AA mutation**: p.L861Q, p.Leu861Gln <br>
-**CDS mutation**: c.2582T\>A <br> 
+**AA mutation**: p.L861Q, p.Leu861Gln <br> **CDS mutation**: c.2582T\>A <br>
 
 ## Example Code: PT360
 

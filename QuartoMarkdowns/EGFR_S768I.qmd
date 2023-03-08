@@ -6,9 +6,9 @@ title: "EGFR S768I"
 
 S768I is a mutation that is not one of the top most common mutations in EGFR, so numbers could be fairly low in comparison to others like L858R or exon 19 deletion. It is a missense mutation on exon 20, but also shares the same AA notation as an indel on exon 20, c.2303_2304delinsTT.
 
+See <a href="https://www.ncbi.nlm.nih.gov/clinvar/?term=S768I+EGFR">ClinVar</a> for more information.<br><br>
 
-**AA mutation**: p.S768I, p.Ser768Ile <br>
-**CDS mutation**: c.2303G\>T, c.2303_2304delinsTT<br> 
+**AA mutation**: p.S768I, p.Ser768Ile <br> **CDS mutation**: c.2303G\>T, c.2303_2304delinsTT<br>
 
 ## Example Code: PT360
 
@@ -20,7 +20,6 @@ select chai_patient_id,
        genetic_test_type_name,
        test_method_name,
        molecular_variant_name,
-       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
        test_value_name,
        curation_indicator
        from c3_pt360_202212_nsclc.patient_test

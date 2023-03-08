@@ -6,9 +6,9 @@ title: "EGFR T790M"
 
 T790M is a missense point mutation located on exon 20. This mutation is regarded as the most common cause of resistance to TKIs.
 
+See <a href="https://www.ncbi.nlm.nih.gov/clinvar/variation/16613/?oq=T790M[VARNAME]+EGFR&m=NM_005228.5(EGFR):c.2369C%3ET%20(p.Thr790Met)">ClinVar</a> for more information.<br><br>
 
-**AA mutation**: p.T790M, p.Thr790Met<br>
-**CDS mutation**: c.2368C\>T <br> 
+**AA mutation**: p.T790M, p.Thr790Met<br> **CDS mutation**: c.2368C\>T <br>
 
 ## Example Code: PT360
 
