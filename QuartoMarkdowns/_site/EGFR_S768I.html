@@ -85,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">General Info</span></a>
   </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
@@ -212,6 +212,7 @@ ul.task-list li input[type="checkbox"] {
 
 <p><em>Code updated for Q4 2022</em></p>
 <p>S768I is a mutation that is not one of the top most common mutations in EGFR, so numbers could be fairly low in comparison to others like L858R or exon 19 deletion. It is a missense mutation on exon 20, but also shares the same AA notation as an indel on exon 20, c.2303_2304delinsTT.</p>
+<p>See <a href="https://www.ncbi.nlm.nih.gov/clinvar/?term=S768I+EGFR">ClinVar</a> for more information.<br><br></p>
 <p><strong>AA mutation</strong>: p.S768I, p.Ser768Ile <br> <strong>CDS mutation</strong>: c.2303G&gt;T, c.2303_2304delinsTT<br></p>
 <section id="example-code-pt360" class="level2">
 <h2 class="anchored" data-anchor-id="example-code-pt360">Example Code: PT360</h2>
@@ -222,7 +223,6 @@ ul.task-list li input[type="checkbox"] {
        genetic_test_type_name,
        test_method_name,
        molecular_variant_name,
-       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
        test_value_name,
        curation_indicator
        from c3_pt360_202212_nsclc.patient_test

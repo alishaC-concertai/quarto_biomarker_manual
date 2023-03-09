@@ -20,7 +20,6 @@ select chai_patient_id,
        genetic_test_type_name,
        test_method_name,
        molecular_variant_name,
-       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
        test_value_name,
        curation_indicator
 from c3_pt360_202212_nsclc.patient_test
@@ -60,7 +59,6 @@ select chai_patient_id,
        'NGS' as test_method_name,
        dna_alteration as molecular_variant_name,
        protein_alteration,
-       replace(molecular_variant_name, ' ', '') as molecular_variant_name_clean,
        test_result as test_value_name
 from c3_gn360_202212_nsclc.genetic_test
 where biomarker_name = 'EGFR' and protein_alteration = 'p.L858R';

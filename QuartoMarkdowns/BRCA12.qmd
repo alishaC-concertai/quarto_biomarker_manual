@@ -1,0 +1,63 @@
+---
+title: "BRCA1/2"
+---
+
+*Code updated for Q4 2022*
+
+BRCA1 and BRCA2 are commonly mutated in breast cancer and ovarian cancer. This is commonly queried for by clients. BRCA1/2 can have many different mutations so when querying for BRCA1/2 mutations or status is querying for all mutations possible, including point mutations, deletions, duplications, etc.
+
+## Example Code: PT360
+
+```{sql}
+SELECT chai_patient_id,
+    test_name_name,
+    test_date,
+    test_method_name,
+    molecular_variant_name,
+    genetic_test_type_name,
+    test_value_name
+FROM patient_test
+WHERE test_date IS NOT NULL AND
+      test_name_name ILIKE '%brca%'
+    AND (LOWER(test_method_name) NOT SIMILAR TO '%(immun|profiling by real-time|suppressed)%'
+        OR LOWER(genetic_test_type_name) NOT SIMILAR TO '%(protein expression|index|suppressed)%');
+
+
+```
+
+<br><br>
+## Example Code: GN360
+```{sql}
+SELECT
+    chai_patient_id,
+    report_date,
+    test_result,
+    biomarker_test_type AS test_method_name,
+    variant_grouping AS molecular_variant_name,
+    biomarker_variant_type AS genetic_test_type_name
+FROM c3_gn360_202212_breast.genetic_test
+where biomarker_name LIKE 'BRCA%'
+
+UNION
+select chai_patient_id,
+       test_date AS report_date,
+       test_value_name AS test_result,
+       test_method_name,
+       molecular_variant_name,
+       genetic_test_type_name
+from c3_gn360_202212_breast.patient_test
+where test_name_name ILIKE 'BRCA%' AND
+      test_date IS NOT NULL
+      AND (LOWER(test_method_name) NOT SIMILAR TO '%(immun|profiling by real-time|suppressed)%'
+        OR LOWER(genetic_test_type_name) NOT SIMILAR TO '%(protein expression|index|suppressed)%')
+```
+
+
+<br>
+## Notes and Recommendations
+
+-   There is some evidence that BRCA can be detected via IHC, but these records were confirmed to *not* actually have IHC as the actual test method, so should be excluded.<br>
+-   The "profiling by real-time" exclusion is actually not a BRCA test, but is an Oncotype test which uses PCR to evaluate RNA expression of 21 genes and calculate a score for the likelihood of recurrence which translates to a suggestion of whether a patient needs chemotherapy, or can safely forego chemotherapy. It is not an appropriate test for a BRCA result<br>
+-   The "index" exclusion is actually not a BRCA test either, but short for "Breast Cancer Index" which is a test that is used to evaluate RNA expression of several genes and calculate a score for the purpose of determining whether a patient needs to get only 5 years or up to 10 years of endocrine therapy. So, again, not an appropriate test for a BRCA result<br>
+-   When getting the positive tests for these tests, use ('Likely Pathogenic Variant','High','Pathogenic Variant','Positive','Significance undetermined')
+
