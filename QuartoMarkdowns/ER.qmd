@@ -1,0 +1,75 @@
+---
+title: "ER"
+---
+*Code updated for Q4 2022*
+
+Estrogen Receptor (ER) is one of the most important (if not the most important) biomarkers in breast cancer. When a person is diagnosed with invasive breast cancer, their tumor biopsy tissue is immediately checked for presence of ER via IHC (as well as PR and HER2). Presence of ER is important for treatment decisions and for prognosis. Detection of ER in a tumor generally means that the patient will be given endocrine therapy drugs such as tamoxifen for up to 10 years after initial diagnosis. ER status is most commonly queried along with PR status, so you may need to see the PR page in addition to this page.
+
+**Aliases**: ESR1, ER
+
+## Example Code: PT360
+```{sql}
+SELECT chai_patient_id,
+       test_name_name,
+       test_method_name,
+       test_value_name,
+       test_value_numeric,
+       test_date
+
+FROM c3_pt360_202212_breast.patient_test
+WHERE (test_name_code IN ('14228-1', '40556-3', '16112-5') OR (test_name_code = '3467' AND test_method_name ILIKE '%immuno%')) 
+
+UNION
+    SELECT chai_patient_id,  -- pulling from condition table
+           NULL AS test_name_name,
+           NULL AS test_method_name,
+           NULL AS test_value_name,
+           NULL AS test_value_numeric,
+           diagnosis_date AS test_date,
+           'ER' AS biomarker,
+           'IHC' AS test_method,
+           CASE
+                    WHEN diagnosis_code_name ILIKE '%positive%' THEN 'Positive'
+                    WHEN diagnosis_code_name ILIKE '%negative%' THEN 'Negative'
+           END AS  test_result,
+
+           NULL AS test_value_numeric_cleaned
+
+    FROM condition
+    WHERE diagnosis_code_code ILIKE '%Z17.%'
+```
+
+
+## Example Code: GN360
+```{sql}
+select chai_patient_id,
+       test_date
+                    
+    from c3_gn360_202212_breast.patient_test
+    where test_date is not null and
+          (test_name_code IN ('14228-1', '40556-3', '16112-5') or (test_name_code = '3467' AND test_method_name ILIKE '%immunohisto%')) 
+
+    UNION
+    
+    select chai_patient_id,
+           report_date as test_date
+                    
+    from c3_gn360_202212_breast.genetic_test
+    where test_date is not null and
+          biomarker_name = 'ESR1' and
+          biomarker_test_type ='IHC'
+          
+    UNION
+    
+    select chai_patient_id,
+           diagnosis_date as test_date
+           
+      from c3_gn360_202212_breast.condition
+      where diagnosis_code_code ilike '%z17.%'
+```
+
+
+
+## Notes and Recommendations:
+- Though there are several ways to measure ER and for several reasons, when speaking of **ER status**, the standard in the field is to use IHC. If a client is not interested in ER status, per se, but rather presence of/expression of/mutations in ER, then you could change the query to include other test methods such as NGS or PCR.<br>
+- The diagnosis code names for the results from the condition table are 'Estrogen receptor positive status [ER+]' and 'Estrogen receptor negative status [ER-]'. Since this is a receptor status, we assume that this was determined by IHC
