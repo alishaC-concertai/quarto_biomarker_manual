@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Biomarkers - About</title>
+<title>Biomarkers - General Information and Recommendations</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">About</h1>
+      <h1 class="quarto-secondary-nav-title">General Information and Recommendations</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -173,7 +173,19 @@ ul.task-list li input[type="checkbox"] {
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">Breast</span>
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Breast</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BRCA12.html" class="sidebar-item-text sidebar-link">BRCA1/2</a>
+  </div>
+</li>
+      </ul>
   </li>
     </ul>
     </div>
@@ -187,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">About</h1>
+<h1 class="title d-none d-lg-block">General Information and Recommendations</h1>
 </div>
 
 
@@ -205,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Biomarker recommendations will be updated quarterly. Each page will indicate whether the code has been updated for the current quarter’s data release.</p>
 <p>Biomarker recommendations are based on what has been confirmed by looking in EMOL patient records, and inconsistencies that may be present. The goal is to be as thorough as possible, but if you see something that needs to be changed, please let me know. [link to email or jira]</p>
 <p>If you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. [link to email or jira]<br><br></p>
-<p>** Of Note**: <br> - When pulling biomarker records from GN360, it may be necessary to query both genetic_test and patient_test tables. We found that in some cases, for some genes/biomarkers, there are patients listed in patient_test that are not in genetic_test. Because of this, please remember to check both tables, and add results from patient_test to genetic_test when necessary. Code in this manual adds patients from both tables when applicable.<br> - In general, if you see that some records are marked as “Suppressed” it is best to exclude them from your counts, especially if the goal is to find number of positive tests for a particular biomarker.</p>
+<p><strong>Of Note</strong>: <br> - When pulling biomarker records from GN360, it may be necessary to query both genetic_test and patient_test tables. We found that in some cases, for some genes/biomarkers, there are patients listed in patient_test that are not in genetic_test. Because of this, please remember to check both tables, and add results from patient_test to genetic_test when necessary. Code in this manual adds patients from both tables when applicable.<br><br> - In general, if you see that some records are marked as “Suppressed” it is best to exclude them from your counts, especially if the goal is to find number of positive tests for a particular biomarker.</p>
 <p><strong>Abbreviations</strong> <br> - AA: amino acid <br> - CDS: coding sequence <br> - TKIs: Tyrosine kinase inhibitors<br> - IHC: Immunohistochemistry<br></p>
 
 

@@ -1,0 +1,57 @@
+---
+title: "PD-L1"
+---
+*Code updated for Q4 2022*
+
+PD-L1 status is commonly paired with, it's receptor PD-1, so there it is possible that you may need to also peruse the PD-1 page. These are commonly investigated to check for their presence as a way to infer if there is the potential for a patient to respond to certain immune checkpoint inhibitor drugs.
+
+
+**Aliases**: PD-L1, CD274
+
+
+## Example Code: PT360
+```{sql}
+SELECT chai_patient_id,
+    test_name_name,
+    test_date,
+    test_method_name,
+    molecular_variant_name,
+    genetic_test_type_name,
+    test_value_name
+FROM c3_pt360_202212_breast.patient_test
+WHERE test_name_name SIMILAR TO 'CD274%|PD-L1%' AND 
+         test_method_name not in ('Immunofluorescent Staining Method','Fluorescence in situ hybridization',
+                                  'Mass Spectrometry','Not Recorded','Suppressed');
+```
+
+
+
+## Example Code: GN360
+```{sql}
+SELECT
+    chai_patient_id,
+    report_date,
+    test_result,
+    biomarker_test_type AS test_method_name,
+    variant_grouping AS molecular_variant_name,
+    biomarker_variant_type AS genetic_test_type_name
+FROM c3_gn360_202212_breast.genetic_test
+WHERE biomarker_name = 'CD274' AND biomarker_test_type <> 'Mass Spectrometry'
+
+UNION
+
+SELECT chai_patient_id,
+       test_date AS report_date,
+       test_value_name AS test_result,
+       test_method_name,
+       molecular_variant_name,
+       genetic_test_type_name
+FROM c3_gn360_202212_breast.patient_test
+WHERE test_name_name SIMILAR TO 'CD274%|PD-L1%' AND 
+         test_method_name not in ('Immunofluorescent Staining Method','Fluorescence in situ hybridization',
+                                  'Mass Spectrometry','Not Recorded','Suppressed')
+```
+
+
+## Notes and Recommendations
+- For getting positive tests, you should pull test_value_name in ('Positive','Significance undetermined') for PT360, test_value_name/test_result in ('High','Low','Intermediate','Positive')

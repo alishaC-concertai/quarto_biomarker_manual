@@ -1,0 +1,51 @@
+---
+title: "PD-1"
+---
+*Code updated for Q4 2022*
+
+PD-1 status is commonly paired with, it's receptor PD-L1, so there it is possible that you may need to also peruse the PD-L1 page. These are commonly investigated to check for their presence as a way to infer if there is the potential for a patient to respond to certain immune checkpoint inhibitor drugs.
+
+
+**Aliases**: PD-1, PDCD1
+
+
+## Example Code: PT360
+```{sql}
+SELECT chai_patient_id,
+    test_name_name,
+    test_date,
+    test_method_name,
+    molecular_variant_name,
+    genetic_test_type_name,
+    test_value_name
+FROM c3_pt360_202212_breast.patient_test
+WHERE test_name_name = 'PDCD1';
+```
+
+
+
+## Example Code: GN360
+```{sql}
+SELECT
+    chai_patient_id,
+    report_date,
+    test_result,
+    biomarker_test_type AS test_method_name,
+    variant_grouping AS molecular_variant_name,
+    biomarker_variant_type AS genetic_test_type_name
+FROM c3_gn360_202212_breast.genetic_test
+WHERE biomarker_name = 'PDCD1'
+
+UNION
+
+SELECT chai_patient_id,
+       test_date AS report_date,
+       test_value_name AS test_result,
+       test_method_name,
+       molecular_variant_name,
+       genetic_test_type_name
+FROM c3_gn360_202212_breast.patient_test
+WHERE test_name_name = 'PDCD1'
+```
+
+

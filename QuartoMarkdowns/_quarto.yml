@@ -34,6 +34,13 @@ website:
               - href: EGFR_T790M.qmd
                 text: T790M
       - section: "Breast"
+        contents: 
+          - href: BRCA12.qmd
+            text: BRCA1/2
+          - href: PD1.qmd
+            text: PD-1
+          - href: PDL1.qmd
+            text: PD-L1
 
 format:
   html:

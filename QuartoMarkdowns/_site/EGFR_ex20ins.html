@@ -85,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">General Info</span></a>
   </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
@@ -173,7 +173,19 @@ ul.task-list li input[type="checkbox"] {
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">Breast</span>
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Breast</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BRCA12.html" class="sidebar-item-text sidebar-link">BRCA1/2</a>
+  </div>
+</li>
+      </ul>
   </li>
     </ul>
     </div>
@@ -239,31 +251,11 @@ and molecular_variant_name not in ('c.2303GCG&gt;TCT, p.S768_V769L','c.2303_2305
 <section id="example-code-gn360" class="level2">
 <h2 class="anchored" data-anchor-id="example-code-gn360">Example Code: GN360</h2>
 <pre class="{sql}"><code>select chai_patient_id,
-       test_value_name
-from patient_test
-where test_name_name similar to 'EGFR%'
-     and (lower(molecular_variant_name) similar to
-          lower('%(76[1-9][_-]|77[0-5][_-]|V769 D770insASV|exon 20 insertion|exon 20 insertion|EXON 20 Insertion|' ||
-                          'N771delinsTH|2310-2311 ins GGT|2310_2311insGGT|2311_2312ins8GCGTGGACA|2307-2308 ins GCCAGCGTG|' ||
-                          '2307_2308ins9GCCAGCGTG|2307-2308 ins OCCAGCGTG|2307_2308ins9|H773DELINSPHPN|exon 20  8 bp ins|' ||
-                          '20Ins 9|20Ins9|20 Ins9|exon 20 ins|e20ins|EXON 20 INS|exon 20  12 bp ins|' ||
-                          'Exon 20 12 bp ins|exon 20  3 bp ins|Exon 20 3 bp ins|2317delinsTACT|exon 20c[.]2312_2313insACAC|' ||
-                          'exon 20  6 bp ins|Exon 20 6 bp ins|Exon 20 8 bp ins|A775 G776insYVMA exon 20|H773delinsYY|' ||
-                          'H773 V774insH ex 20|2319_2320insCAC|2319-2320 ins CAC|2319 2320insCAC|2319-2320 ins CAC|' ||
-                          'H773delinsYPNPY|H773dup|D770delinsGY|D770delinsGY|2308_2309insGTT|2311_2312delinsGGGTT|N771delinsGF|' ||
-                          'N771&gt;PH|V769 D770insASV|D770&gt;GY|N771_H773&gt;HHPH|N771&gt;KG|N771_P772&gt;SVDNA|H773&gt;YNPY|2284-5_2290dup)%'))
-       and molecular_variant_name not in
-                   ('c.2303GCG&gt;TCT, p.S768_V769L', 'c.2303_2305delinsTCT, p.S768_V769delinsIL', 'p.D770_N771delinsGY')
-
-UNION
-
-select chai_patient_id,
        test_result as test_value_name
 from genetic_test
 where biomarker_name ilike '%EGFR%'
       and variant_grouping = 'EGFR Exon 20 Insertion Mutation'
-      and test_result ilike '%positive%'
-      and (protein_alteration not in ('p.C797S', 'p.D770_N771delinsGY', 'p.S768_V769L', 'p.S768_V769delinsIL') or protein_alteration is null)</code></pre>
+      and (protein_alteration &lt;&gt; 'p.C797S' or protein_alteration is null)</code></pre>
 </section>
 <section id="notes-and-recommendations" class="level2">
 <h2 class="anchored" data-anchor-id="notes-and-recommendations">Notes and Recommendations</h2>

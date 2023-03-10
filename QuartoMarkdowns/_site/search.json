@@ -9,9 +9,9 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "General Information and Recommendations",
     "section": "",
-    "text": "Biomarker recommendations will be updated quarterly. Each page will indicate whether the code has been updated for the current quarter’s data release.\nBiomarker recommendations are based on what has been confirmed by looking in EMOL patient records, and inconsistencies that may be present. The goal is to be as thorough as possible, but if you see something that needs to be changed, please let me know. [link to email or jira]\nIf you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. [link to email or jira]\n** Of Note**:  - When pulling biomarker records from GN360, it may be necessary to query both genetic_test and patient_test tables. We found that in some cases, for some genes/biomarkers, there are patients listed in patient_test that are not in genetic_test. Because of this, please remember to check both tables, and add results from patient_test to genetic_test when necessary. Code in this manual adds patients from both tables when applicable. - In general, if you see that some records are marked as “Suppressed” it is best to exclude them from your counts, especially if the goal is to find number of positive tests for a particular biomarker.\nAbbreviations  - AA: amino acid  - CDS: coding sequence  - TKIs: Tyrosine kinase inhibitors - IHC: Immunohistochemistry"
+    "text": "Biomarker recommendations will be updated quarterly. Each page will indicate whether the code has been updated for the current quarter’s data release.\nBiomarker recommendations are based on what has been confirmed by looking in EMOL patient records, and inconsistencies that may be present. The goal is to be as thorough as possible, but if you see something that needs to be changed, please let me know. [link to email or jira]\nIf you do not see the biomarker or variant that you need, it may be in progress. However, just in case, submit your biomarker, variant, and indication here. [link to email or jira]\nOf Note:  - When pulling biomarker records from GN360, it may be necessary to query both genetic_test and patient_test tables. We found that in some cases, for some genes/biomarkers, there are patients listed in patient_test that are not in genetic_test. Because of this, please remember to check both tables, and add results from patient_test to genetic_test when necessary. Code in this manual adds patients from both tables when applicable. - In general, if you see that some records are marked as “Suppressed” it is best to exclude them from your counts, especially if the goal is to find number of positive tests for a particular biomarker.\nAbbreviations  - AA: amino acid  - CDS: coding sequence  - TKIs: Tyrosine kinase inhibitors - IHC: Immunohistochemistry"
   },
   {
     "objectID": "EGFR_E709.html",
@@ -186,7 +186,7 @@
     "href": "EGFR_ex20ins.html#example-code-gn360",
     "title": "EGFR Exon 20 insertions",
     "section": "Example Code: GN360",
-    "text": "Example Code: GN360\nselect chai_patient_id,\n       test_value_name\nfrom patient_test\nwhere test_name_name similar to 'EGFR%'\n     and (lower(molecular_variant_name) similar to\n          lower('%(76[1-9][_-]|77[0-5][_-]|V769 D770insASV|exon 20 insertion|exon 20 insertion|EXON 20 Insertion|' ||\n                          'N771delinsTH|2310-2311 ins GGT|2310_2311insGGT|2311_2312ins8GCGTGGACA|2307-2308 ins GCCAGCGTG|' ||\n                          '2307_2308ins9GCCAGCGTG|2307-2308 ins OCCAGCGTG|2307_2308ins9|H773DELINSPHPN|exon 20  8 bp ins|' ||\n                          '20Ins 9|20Ins9|20 Ins9|exon 20 ins|e20ins|EXON 20 INS|exon 20  12 bp ins|' ||\n                          'Exon 20 12 bp ins|exon 20  3 bp ins|Exon 20 3 bp ins|2317delinsTACT|exon 20c[.]2312_2313insACAC|' ||\n                          'exon 20  6 bp ins|Exon 20 6 bp ins|Exon 20 8 bp ins|A775 G776insYVMA exon 20|H773delinsYY|' ||\n                          'H773 V774insH ex 20|2319_2320insCAC|2319-2320 ins CAC|2319 2320insCAC|2319-2320 ins CAC|' ||\n                          'H773delinsYPNPY|H773dup|D770delinsGY|D770delinsGY|2308_2309insGTT|2311_2312delinsGGGTT|N771delinsGF|' ||\n                          'N771>PH|V769 D770insASV|D770>GY|N771_H773>HHPH|N771>KG|N771_P772>SVDNA|H773>YNPY|2284-5_2290dup)%'))\n       and molecular_variant_name not in\n                   ('c.2303GCG>TCT, p.S768_V769L', 'c.2303_2305delinsTCT, p.S768_V769delinsIL', 'p.D770_N771delinsGY')\n\nUNION\n\nselect chai_patient_id,\n       test_result as test_value_name\nfrom genetic_test\nwhere biomarker_name ilike '%EGFR%'\n      and variant_grouping = 'EGFR Exon 20 Insertion Mutation'\n      and test_result ilike '%positive%'\n      and (protein_alteration not in ('p.C797S', 'p.D770_N771delinsGY', 'p.S768_V769L', 'p.S768_V769delinsIL') or protein_alteration is null)"
+    "text": "Example Code: GN360\nselect chai_patient_id,\n       test_result as test_value_name\nfrom genetic_test\nwhere biomarker_name ilike '%EGFR%'\n      and variant_grouping = 'EGFR Exon 20 Insertion Mutation'\n      and (protein_alteration <> 'p.C797S' or protein_alteration is null)"
   },
   {
     "objectID": "EGFR_ex20ins.html#notes-and-recommendations",
@@ -219,14 +219,14 @@
   {
     "objectID": "BRCA12.html",
     "href": "BRCA12.html",
-    "title": "BRCA",
+    "title": "BRCA1/2",
     "section": "",
     "text": "Code updated for Q4 2022\nBRCA1 and BRCA2 are commonly mutated in breast cancer and ovarian cancer. This is commonly queried for by clients. BRCA1/2 can have many different mutations so when querying for BRCA1/2 mutations or status is querying for all mutations possible, including point mutations, deletions, duplications, etc."
   },
   {
     "objectID": "BRCA12.html#example-code-pt360",
     "href": "BRCA12.html#example-code-pt360",
-    "title": "BRCA",
+    "title": "BRCA1/2",
     "section": "Example Code: PT360",
     "text": "Example Code: PT360\nSELECT chai_patient_id,\n    test_name_name,\n    test_date,\n    test_method_name,\n    molecular_variant_name,\n    genetic_test_type_name,\n    test_value_name\nFROM patient_test\nWHERE test_date IS NOT NULL AND\n      test_name_name ILIKE '%brca%'\n    AND (LOWER(test_method_name) NOT SIMILAR TO '%(immun|profiling by real-time|suppressed)%'\n        OR LOWER(genetic_test_type_name) NOT SIMILAR TO '%(protein expression|index|suppressed)%');"
   },
@@ -236,5 +236,61 @@
     "title": "BRCA",
     "section": "Notes and Recommendations",
     "text": "Notes and Recommendations\n\nYou’ll"
+  },
+  {
+    "objectID": "PDL1.html",
+    "href": "PDL1.html",
+    "title": "PD-L1",
+    "section": "",
+    "text": "Code updated for Q4 2022\nPD-L1 status is commonly paired with, it’s receptor PD-1, so there it is possible that you may need to also peruse the PD-1 page. These are commonly investigated to check for their presence as a way to infer if there is the potential for a patient to respond to certain immune checkpoint inhibitor drugs.\nAliases: PD-L1, CD274"
+  },
+  {
+    "objectID": "PDL1.html#example-code-pt360",
+    "href": "PDL1.html#example-code-pt360",
+    "title": "PD-L1",
+    "section": "Example Code: PT360",
+    "text": "Example Code: PT360\nSELECT chai_patient_id,\n    test_name_name,\n    test_date,\n    test_method_name,\n    molecular_variant_name,\n    genetic_test_type_name,\n    test_value_name\nFROM c3_pt360_202212_breast.patient_test\nWHERE test_name_name SIMILAR TO 'CD274%|PD-L1%' AND \n         test_method_name not in ('Immunofluorescent Staining Method','Fluorescence in situ hybridization',\n                                  'Mass Spectrometry','Not Recorded','Suppressed');"
+  },
+  {
+    "objectID": "PDL1.html#example-code-gn360",
+    "href": "PDL1.html#example-code-gn360",
+    "title": "PD-L1",
+    "section": "Example Code: GN360",
+    "text": "Example Code: GN360\nSELECT\n    chai_patient_id,\n    report_date,\n    test_result,\n    biomarker_test_type AS test_method_name,\n    variant_grouping AS molecular_variant_name,\n    biomarker_variant_type AS genetic_test_type_name\nFROM c3_gn360_202212_breast.genetic_test\nWHERE biomarker_name = 'CD274' AND biomarker_test_type <> 'Mass Spectrometry'\n\nUNION\n\nSELECT chai_patient_id,\n       test_date AS report_date,\n       test_value_name AS test_result,\n       test_method_name,\n       molecular_variant_name,\n       genetic_test_type_name\nFROM c3_gn360_202212_breast.patient_test\nWHERE test_name_name SIMILAR TO 'CD274%|PD-L1%' AND \n         test_method_name not in ('Immunofluorescent Staining Method','Fluorescence in situ hybridization',\n                                  'Mass Spectrometry','Not Recorded','Suppressed')"
+  },
+  {
+    "objectID": "PDL1.html#notes-and-recommendations",
+    "href": "PDL1.html#notes-and-recommendations",
+    "title": "PD-L1",
+    "section": "Notes and Recommendations",
+    "text": "Notes and Recommendations\n\nFor getting positive tests, you should pull test_value_name in (‘Positive’,‘Significance undetermined’) for PT360, test_value_name/test_result in (‘High’,‘Low’,‘Intermediate’,‘Positive’)"
+  },
+  {
+    "objectID": "PD1.html",
+    "href": "PD1.html",
+    "title": "PD-1",
+    "section": "",
+    "text": "Code updated for Q4 2022\nPD-1 status is commonly paired with, it’s receptor PD-L1, so there it is possible that you may need to also peruse the PD-L1 page. These are commonly investigated to check for their presence as a way to infer if there is the potential for a patient to respond to certain immune checkpoint inhibitor drugs.\nAliases: PD-1, PDCD1"
+  },
+  {
+    "objectID": "PD1.html#example-code-pt360",
+    "href": "PD1.html#example-code-pt360",
+    "title": "PD-1",
+    "section": "Example Code: PT360",
+    "text": "Example Code: PT360\nSELECT chai_patient_id,\n    test_name_name,\n    test_date,\n    test_method_name,\n    molecular_variant_name,\n    genetic_test_type_name,\n    test_value_name\nFROM c3_pt360_202212_breast.patient_test\nWHERE test_name_name = 'PDCD1';"
+  },
+  {
+    "objectID": "PD1.html#example-code-gn360",
+    "href": "PD1.html#example-code-gn360",
+    "title": "PD-1",
+    "section": "Example Code: GN360",
+    "text": "Example Code: GN360\nSELECT\n    chai_patient_id,\n    report_date,\n    test_result,\n    biomarker_test_type AS test_method_name,\n    variant_grouping AS molecular_variant_name,\n    biomarker_variant_type AS genetic_test_type_name\nFROM c3_gn360_202212_breast.genetic_test\nWHERE biomarker_name = 'PDCD1'\n\nUNION\n\nSELECT chai_patient_id,\n       test_date AS report_date,\n       test_value_name AS test_result,\n       test_method_name,\n       molecular_variant_name,\n       genetic_test_type_name\nFROM c3_gn360_202212_breast.patient_test\nWHERE test_name_name = 'PDCD1'"
+  },
+  {
+    "objectID": "BRCA12.html#example-code-gn360",
+    "href": "BRCA12.html#example-code-gn360",
+    "title": "BRCA1/2",
+    "section": "Example Code: GN360",
+    "text": "Example Code: GN360\nSELECT\n    chai_patient_id,\n    report_date,\n    test_result,\n    biomarker_test_type AS test_method_name,\n    variant_grouping AS molecular_variant_name,\n    biomarker_variant_type AS genetic_test_type_name\nFROM c3_gn360_202212_breast.genetic_test\nwhere biomarker_name LIKE 'BRCA%'\n\nUNION\nselect chai_patient_id,\n       test_date AS report_date,\n       test_value_name AS test_result,\n       test_method_name,\n       molecular_variant_name,\n       genetic_test_type_name\nfrom c3_gn360_202212_breast.patient_test\nwhere test_name_name ILIKE 'BRCA%' AND\n      test_date IS NOT NULL\n      AND (LOWER(test_method_name) NOT SIMILAR TO '%(immun|profiling by real-time|suppressed)%'\n        OR LOWER(genetic_test_type_name) NOT SIMILAR TO '%(protein expression|index|suppressed)%')\n##Notes and Recommendations\n\nThere is some evidence that BRCA can be detected via IHC, but these records were confirmed to not actually have IHC as the actual test method, so should be excluded.\nThe “profiling by real-time” exclusion is actually not a BRCA test, but is an Oncotype test which uses PCR to evaluate RNA expression of 21 genes and calculate a score for the likelihood of recurrence which translates to a suggestion of whether a patient needs chemotherapy, or can safely forego chemotherapy. It is not an appropriate test for a BRCA result\nThe “index” exclusion is actually not a BRCA test either, but short for “Breast Cancer Index” which is a test that is used to evaluate RNA expression of several genes and calculate a score for the purpose of determining whether a patient needs to get only 5 years or up to 10 years of endocrine therapy. So, again, not an appropriate test for a BRCA result\nWhen getting the positive tests for these tests, use (‘Likely Pathogenic Variant’,‘High’,‘Pathogenic Variant’,‘Positive’,‘Significance undetermined’)"
   }
 ]

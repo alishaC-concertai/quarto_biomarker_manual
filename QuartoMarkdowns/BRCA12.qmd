@@ -25,7 +25,8 @@ WHERE test_date IS NOT NULL AND
 
 ```
 
-<br><br>
+
+
 ## Example Code: GN360
 ```{sql}
 SELECT
@@ -53,8 +54,9 @@ where test_name_name ILIKE 'BRCA%' AND
 ```
 
 
-<br>
-## Notes and Recommendations
+
+
+##Notes and Recommendations
 
 -   There is some evidence that BRCA can be detected via IHC, but these records were confirmed to *not* actually have IHC as the actual test method, so should be excluded.<br>
 -   The "profiling by real-time" exclusion is actually not a BRCA test, but is an Oncotype test which uses PCR to evaluate RNA expression of 21 genes and calculate a score for the likelihood of recurrence which translates to a suggestion of whether a patient needs chemotherapy, or can safely forego chemotherapy. It is not an appropriate test for a BRCA result<br>

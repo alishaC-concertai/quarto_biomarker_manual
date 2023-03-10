@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Biomarkers - BRCA1/2</title>
+<title>Biomarkers - PD-L1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">BRCA1/2</h1>
+      <h1 class="quarto-secondary-nav-title">PD-L1</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -182,7 +182,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./BRCA12.html" class="sidebar-item-text sidebar-link active">BRCA1/2</a>
+  <a href="./BRCA12.html" class="sidebar-item-text sidebar-link">BRCA1/2</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -192,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./PDL1.html" class="sidebar-item-text sidebar-link">PD-L1</a>
+  <a href="./PDL1.html" class="sidebar-item-text sidebar-link active">PD-L1</a>
   </div>
 </li>
       </ul>
@@ -208,6 +208,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#example-code-pt360" id="toc-example-code-pt360" class="nav-link active" data-scroll-target="#example-code-pt360">Example Code: PT360</a></li>
   <li><a href="#example-code-gn360" id="toc-example-code-gn360" class="nav-link" data-scroll-target="#example-code-gn360">Example Code: GN360</a></li>
+  <li><a href="#notes-and-recommendations" id="toc-notes-and-recommendations" class="nav-link" data-scroll-target="#notes-and-recommendations">Notes and Recommendations</a></li>
   </ul>
 </nav>
     </div>
@@ -216,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">BRCA1/2</h1>
+<h1 class="title d-none d-lg-block">PD-L1</h1>
 </div>
 
 
@@ -232,7 +233,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p><em>Code updated for Q4 2022</em></p>
-<p>BRCA1 and BRCA2 are commonly mutated in breast cancer and ovarian cancer. This is commonly queried for by clients. BRCA1/2 can have many different mutations so when querying for BRCA1/2 mutations or status is querying for all mutations possible, including point mutations, deletions, duplications, etc.</p>
+<p>PD-L1 status is commonly paired with, it’s receptor PD-1, so there it is possible that you may need to also peruse the PD-1 page. These are commonly investigated to check for their presence as a way to infer if there is the potential for a patient to respond to certain immune checkpoint inhibitor drugs.</p>
+<p><strong>Aliases</strong>: PD-L1, CD274</p>
 <section id="example-code-pt360" class="level2">
 <h2 class="anchored" data-anchor-id="example-code-pt360">Example Code: PT360</h2>
 <pre class="{sql}"><code>SELECT chai_patient_id,
@@ -242,13 +244,10 @@ ul.task-list li input[type="checkbox"] {
     molecular_variant_name,
     genetic_test_type_name,
     test_value_name
-FROM patient_test
-WHERE test_date IS NOT NULL AND
-      test_name_name ILIKE '%brca%'
-    AND (LOWER(test_method_name) NOT SIMILAR TO '%(immun|profiling by real-time|suppressed)%'
-        OR LOWER(genetic_test_type_name) NOT SIMILAR TO '%(protein expression|index|suppressed)%');
-
-</code></pre>
+FROM c3_pt360_202212_breast.patient_test
+WHERE test_name_name SIMILAR TO 'CD274%|PD-L1%' AND 
+         test_method_name not in ('Immunofluorescent Staining Method','Fluorescence in situ hybridization',
+                                  'Mass Spectrometry','Not Recorded','Suppressed');</code></pre>
 </section>
 <section id="example-code-gn360" class="level2">
 <h2 class="anchored" data-anchor-id="example-code-gn360">Example Code: GN360</h2>
@@ -260,26 +259,25 @@ WHERE test_date IS NOT NULL AND
     variant_grouping AS molecular_variant_name,
     biomarker_variant_type AS genetic_test_type_name
 FROM c3_gn360_202212_breast.genetic_test
-where biomarker_name LIKE 'BRCA%'
+WHERE biomarker_name = 'CD274' AND biomarker_test_type &lt;&gt; 'Mass Spectrometry'
 
 UNION
-select chai_patient_id,
+
+SELECT chai_patient_id,
        test_date AS report_date,
        test_value_name AS test_result,
        test_method_name,
        molecular_variant_name,
        genetic_test_type_name
-from c3_gn360_202212_breast.patient_test
-where test_name_name ILIKE 'BRCA%' AND
-      test_date IS NOT NULL
-      AND (LOWER(test_method_name) NOT SIMILAR TO '%(immun|profiling by real-time|suppressed)%'
-        OR LOWER(genetic_test_type_name) NOT SIMILAR TO '%(protein expression|index|suppressed)%')</code></pre>
-<p>##Notes and Recommendations</p>
+FROM c3_gn360_202212_breast.patient_test
+WHERE test_name_name SIMILAR TO 'CD274%|PD-L1%' AND 
+         test_method_name not in ('Immunofluorescent Staining Method','Fluorescence in situ hybridization',
+                                  'Mass Spectrometry','Not Recorded','Suppressed')</code></pre>
+</section>
+<section id="notes-and-recommendations" class="level2">
+<h2 class="anchored" data-anchor-id="notes-and-recommendations">Notes and Recommendations</h2>
 <ul>
-<li>There is some evidence that BRCA can be detected via IHC, but these records were confirmed to <em>not</em> actually have IHC as the actual test method, so should be excluded.<br></li>
-<li>The “profiling by real-time” exclusion is actually not a BRCA test, but is an Oncotype test which uses PCR to evaluate RNA expression of 21 genes and calculate a score for the likelihood of recurrence which translates to a suggestion of whether a patient needs chemotherapy, or can safely forego chemotherapy. It is not an appropriate test for a BRCA result<br></li>
-<li>The “index” exclusion is actually not a BRCA test either, but short for “Breast Cancer Index” which is a test that is used to evaluate RNA expression of several genes and calculate a score for the purpose of determining whether a patient needs to get only 5 years or up to 10 years of endocrine therapy. So, again, not an appropriate test for a BRCA result<br></li>
-<li>When getting the positive tests for these tests, use (‘Likely Pathogenic Variant’,‘High’,‘Pathogenic Variant’,‘Positive’,‘Significance undetermined’)</li>
+<li>For getting positive tests, you should pull test_value_name in (‘Positive’,‘Significance undetermined’) for PT360, test_value_name/test_result in (‘High’,‘Low’,‘Intermediate’,‘Positive’)</li>
 </ul>
 
 
